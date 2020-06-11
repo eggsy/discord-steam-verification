@@ -13,8 +13,8 @@ Verify your Discord server members and check if they have specified app on their
   - Access to string files easily and **translate** the entire bot, API and website to your language!
   - **Multiple roles** that will be given to user on successfull login!
   - **Custom punishments** for users who doesn't have the specified app in their Steam library! You can choose between two options, **kick** or **ban** the user if they are trying to access your server without having the required app/game!
-- API and website ready for production! Specially designed API, multiple endpoints, Steam authentication and simple website UI.
-- Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `reverify` and `unverify` commands built-in as well as usual commands such as `disable`, `enable`, `eval` and `help`!
+- [x] API and website ready for production! Specially designed API, multiple endpoints, Steam authentication and simple website UI.
+- [x] Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `reverify` and `unverify` commands built-in as well as usual commands such as `disable`, `enable`, `eval` and `help`!
   - `bypass`: Manually skip the verification process for someone!
   - `disable`: Disable the bot, this will stop verification process' on new member join and **clear the verification queue**.
   - `emit` or `verifyself`: This will start the verification for the message author, **don't forget** if a user has all of the success roles, they won't be able to use this command unless you remove their roles or use the `unverify` command.
@@ -48,7 +48,6 @@ That's all, but please do not forget this is not the "best version" of what you 
 
 > ⚠ ⚠ ⚠ **Caution!** ⚠⚠⚠
 > This project has no database so all of you could easily setup and start using it, you can edit your clone to have a database or wait for me to create another branch with a version that includes database connection. **Your verification queue will be lost** when you restart the bot or something happens. **And your settings won't be available** until you restart the bot! So make sure to set your config and everything, test it on a private server and then start using it on your main server!
-
 
 ### 🛠 Requirements
 
