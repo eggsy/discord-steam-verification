@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "typeRoots": [
+      "@types"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

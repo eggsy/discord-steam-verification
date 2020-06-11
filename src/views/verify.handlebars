@@ -1,0 +1,73 @@
+<h1>{{ strings.sections.verification.VERIFYING_USER_TITLE }}</h1>
+<ul>
+  <li>
+    <div>{{ strings.sections.verification.VERIFICATION_SERVER }}:</div>
+    <div>{{ verification.server.name }} (<code>{{ verification.server.id }}</code>)</div>
+  </li>
+  <li>
+    <div>{{ strings.sections.verification.VERIFICATION_USER }}:</div>
+    <div>{{ verification.user.name }} (<code>{{ verification.user.id }}</code>)</div>
+  </li>
+  <li>
+    <div>{{ strings.sections.verification.VERIFICATION_STARTED_AT }}:</div>
+    <div>
+      <script>document.write(`${new Date({{ verification.startedAt }}).toLocaleDateString()} ${new Date({{ verification.startedAt }}).toLocaleTimeString()}`)</script>
+    </div>
+  </li>
+</ul>
+
+<h1>{{ strings.sections.steam.STEAM_DETAILS_TITLE }}</h1>
+<ul>
+  <li>
+    <div>{{ strings.sections.steam.USERNAME }}:</div>
+    <div>{{ user.username }}</div>
+  </li>
+  <li>
+    <div>SteamID:</div>
+    <div>{{ user.steamid }}</div>
+  </li>
+  <li>
+    <div>{{ strings.sections.steam.PROFILE_URL }}:</div>
+    <div><a href="{{ user.profile }}" target="_blank">{{ strings.sections.steam.CLICK_HERE_BTN }}</a></div>
+  </li>
+</ul>
+
+<div class="buttons">
+  <button class="yes">{{ strings.sections.buttons.YES }}</button>
+  <button class="no">{{ strings.sections.buttons.NO }}</button>
+</div>
+
+<script>
+  // Getting buttons from the document;
+  const btnYes = document.querySelector(".buttons .yes");
+  const btnNo = document.querySelector(".buttons .no");
+
+  // Adding @click listeners so we could get a signal when user clicks one;
+  btnYes.addEventListener("click", async () => {
+    try {
+      const { data } = await axios.post(`/verify`, {
+        userId: "{{ verification.user.id }}",
+        serverId: "{{ verification.server.id }}",
+        steamId: "{{ user.steamid }}"
+      })
+
+      if (!data || data.error) {
+        console.error(data)
+        return alert(data.message)
+      } else if (!data.error && data.verified) {
+        alert("{{ strings.SUCCESS_MESSAGE }}");
+
+        // We can't close the window but we can make it disappear ¯\_(ツ)_/¯
+        window.open("about:blank", "_self");
+      }
+    } catch (err) {
+      console.error(err)
+      return alert("{{ strings.ERROR_MESSAGE }}")
+    }
+  });
+
+  btnNo.addEventListener("click", () => {
+    const warning = confirm("{{ strings.CLOSE_PAGE_MESSAGE }}");
+    if (warning) window.open("about:blank", "_self");
+  });
+</script>
