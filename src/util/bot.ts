@@ -16,6 +16,7 @@ export default class Bot extends Client {
     servers: string[];
     successRoles: string[];
     failureAction: "BAN" | "KICK" | "NONE";
+    usedAccounts: string[];
     logChannel: {
       id: string;
       channel: TextChannel;
@@ -25,6 +26,7 @@ export default class Bot extends Client {
     servers: [],
     successRoles: [],
     failureAction: "NONE",
+    usedAccounts: [],
     logChannel: { id: undefined, channel: null },
   };
 
@@ -121,7 +123,7 @@ export default class Bot extends Client {
   }
 
   async startVerification(guild: Guild, member: Member): Promise<boolean> {
-    if (this.master.queue.has(`${member.guild.id}/${member.id}`)) return false;
+    if (this.master.queue.has(`${guild.id}/${member.id}`)) return false;
 
     this.master.queue.set(`${guild.id}/${member.id}`, {
       startedAt: Date.now(),
@@ -139,25 +141,47 @@ export default class Bot extends Client {
 
     if (this.settings.logChannel.id)
       this.settings.logChannel.channel.createMessage(
-        this.master.strings.bot.info["VERIFICATION_STARTING"].replace(
-          /\{0\}/g,
-          member.username
-        )
+        this.master.strings.bot.info["VERIFICATION_STARTING"]
+          .replace(/\{0\}/g, member.mention)
+          .replace(/\{1\}/g, member.username)
+          .replace(/\{2\}/g, member.id)
       );
 
     const dmChannel = await member.user.getDMChannel();
-    if (!dmChannel) return false;
-    await this.createMessage(
-      dmChannel.id,
-      this.master.strings.bot.info["VERIFICATION_PRIVATE_MESSAGE"]
-        .replace(/\{0\}/g, member.username)
-        .replace(/\{1\}/g, guild.name)
-        .replace(
-          /\{2\}/g,
-          `${process.env.HOST}/verify/${member.guild.id}/${member.id}`
-        )
-    );
-    return true;
+    if (!dmChannel) {
+      this.master.queue.delete(`${guild.id}/${member.id}`);
+      this.settings.logChannel.channel.createMessage(
+        this.master.strings.bot.info["USER_DMS_DISABLED"]
+          .replace(/\{0\}/g, member.mention)
+          .replace(/\{1\}/g, member.username)
+          .replace(/\{2\}/g, member.id)
+      );
+      return false;
+    }
+
+    try {
+      await this.createMessage(
+        dmChannel.id,
+        this.master.strings.bot.info["VERIFICATION_PRIVATE_MESSAGE"]
+          .replace(/\{0\}/g, member.username)
+          .replace(/\{1\}/g, guild.name)
+          .replace(
+            /\{2\}/g,
+            `${process.env.HOST}/verify/${guild.id}/${member.id}`
+          )
+      );
+
+      return true;
+    } catch (err) {
+      this.master.queue.delete(`${guild.id}/${member.id}`);
+      await this.settings.logChannel.channel.createMessage(
+        this.master.strings.bot.info["USER_DMS_DISABLED"]
+          .replace(/\{0\}/g, member.mention)
+          .replace(/\{1\}/g, member.username)
+          .replace(/\{2\}/g, member.id)
+      );
+      return false;
+    }
   }
 
   async stopVerification(

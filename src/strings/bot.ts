@@ -1,11 +1,12 @@
 export default {
   info: {
     VERIFICATION_STARTING:
-      ":information_source: Starting verification for user: **{0}**",
+      ":information_source: Starting verification for user: **{0}** (`{1} - {2}`)",
     VERIFICATION_SUCCESS:
       ":white_check_mark: User **{0}** has successfully passed verification.",
     VERIFICATION_FAILED:
       ":name_badge: User {0} (`{1}`) doesn't have the app/game in their library!",
+    USER_DMS_DISABLED: ":warning: User ${member.mention} (`{0} - ${1}`) has their DMs disabled.",
     VERIFICATION_BYPASSED:
       ":white_check_mark: User **{0}** has been removed/bypassed from verification by **{1}**.",
     VERIFICATION_BYPASSED_PM: {

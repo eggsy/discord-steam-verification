@@ -3,6 +3,7 @@ interface BotStrings {
     VERIFICATION_STARTING: string;
     VERIFICATION_SUCCESS: string;
     VERIFICATION_FAILED: string;
+    USER_DMS_DISABLED: string;
     VERIFICATION_BYPASSED: string;
     VERIFICATION_BYPASSED_PM: {
       FIRST: string;
@@ -122,6 +123,7 @@ interface ApiStrings {
     BOT_STARTING: string;
     BOT_NOT_IN_GUILD: string;
     USER_NOT_IN_VERIFICATION: string;
+    ACCOUNT_ALREADY_USED: string;
   };
   endpoints: {
     verifyPost: {
