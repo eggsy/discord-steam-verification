@@ -1,6 +1,6 @@
 ## Discord Steam Verification
 
-> 🚧 This bot has **power** to kick or ban your useres if they can't verify themselves. Please use it on your own risk and make sure to run some tests before using it on your server!
+> 🚧 This bot has **power** to kick or ban your users if they can't verify themselves. Please use it on your own risk and make sure to run some tests before using it on your server!
 
 > Please make sure to read all of the README.md (this) file before starting to use the bot.
 
