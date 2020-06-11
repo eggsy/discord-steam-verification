@@ -52,7 +52,7 @@ export default {
       },
       reverify: {
         COULDNT_REMOVE_ROLES:
-          ":no_entry: Couldn't remove any roles from user. Here's the list the roles we couldn't remove:",
+          ":no_entry: Couldn't remove any roles from user. Here's the list the roles we couldn't remove: {0}",
         PARTIALLY_REMOVED:
           ":grey_question: We were unable to remove some roles from this user, we have succeeded removing {0} roles but we couldn't remove: {1}",
       },
