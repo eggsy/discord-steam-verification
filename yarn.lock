@@ -1098,6 +1098,11 @@ rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
+rsync@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/rsync/-/rsync-0.6.1.tgz#3681a0098bd8750448f8bf9da1fee09f7763742b"
+  integrity sha1-NoGgCYvYdQRI+L+dof7gn3djdCs=
+
 run-parallel@^1.1.9:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"

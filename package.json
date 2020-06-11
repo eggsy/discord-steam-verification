@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "devScript",
-    "compile": "rimraf dist && yarn --silent && tsc",
+    "compile": "rimraf dist && yarn --silent && tsc && devScript --copyOnly",
+    "compile-linux": "rimraf dist && yarn --silent && tsc && rsync --recursive src/views/* dist/views/",
     "start": "cd dist && node index"
   },
   "keywords": [
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
+    "rsync": "^0.6.1",
     "ts-devscript": "^1.0.4"
   }
 }
