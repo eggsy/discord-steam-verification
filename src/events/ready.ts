@@ -9,7 +9,7 @@ export default class ReadyEvent extends Event {
   async execute(bot: Bot) {
     const channel = await bot.getChannel(bot.settings.logChannel.id);
 
-    if (channel.type !== 0)
+    if (channel && channel.type !== 0)
       consola.error(
         "Log channel set to non-text channel. Please set it to a text channel and restart the bot."
       );
