@@ -15,7 +15,7 @@ export default {
         "_Please note that the bot was unable to give you some roles, you may not have full access to the server._",
     },
     VERIFICATION_PRIVATE_MESSAGE:
-      "Hello **{0}** :wave: You have to verify yourself before starting to chat in **{1}** server! Please use the following link to verify that you own the specific Steam item in your library.\n\n:link: {2}",
+      "Hello **{0}** :wave: You have to verify yourself before starting to chat in **{1}** server! Please use the following link to verify that you own the specific Steam item in your library.\n\n:link: <{2}>",
   },
   errors: {
     commands: {
