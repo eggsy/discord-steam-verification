@@ -10,7 +10,7 @@ import session from "express-session";
 import bodyParser from "body-parser";
 
 export default class API {
-  port: number = Number(process.env.PORT) || 3000;
+  port: number = Number(process.env.API_PORT) || 3000;
   server: Express = express();
   router: Router = express.Router();
   master: Master;
