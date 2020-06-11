@@ -15,7 +15,7 @@ export default class EmitCommand extends Command {
       );
 
     if (ctx.bot.settings.successRoles.length === memberRoles.length)
-      return ctx.message.addReaction("⛔");
+      return ctx.message.addReaction("⛔").catch(null);
 
     ctx.bot.emit("guildMemberAdd", ctx.author);
   }
