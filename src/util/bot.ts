@@ -1,4 +1,4 @@
-import { Client, Member, TextChannel } from "eris";
+import { Client, Member, TextChannel, Guild } from "eris";
 import { Command, Event, Master } from "../structures";
 import { readdirSync } from "fs";
 import { Config } from "../config";
@@ -104,8 +104,11 @@ export default class Bot extends Client {
 
       if (event.name === "messageCreate")
         this.on("messageCreate", (message) => event.execute(message, this));
-      else if (event.name === "guildMemberAdd")
-        this.on("guildMemberAdd", (member) => event.execute(member, this));
+      else if (
+        event.name === "guildMemberAdd" ||
+        event.name === "guildMemberRemove"
+      )
+        this.on(event.name, (guild, member) => event.execute(member, this));
       else if (event.name === "ready")
         this.once("ready", () => event.execute(this));
       else if (
@@ -117,37 +120,38 @@ export default class Bot extends Client {
     });
   }
 
-  async startVerification(member: Member): Promise<boolean> {
+  async startVerification(guild: Guild, member: Member): Promise<boolean> {
     if (this.master.queue.has(`${member.guild.id}/${member.id}`)) return false;
 
-    this.master.queue.set(`${member.guild.id}/${member.id}`, {
+    this.master.queue.set(`${guild.id}/${member.id}`, {
       startedAt: Date.now(),
       server: {
-        id: member.guild.id,
-        name: member.guild.name,
+        id: guild.id,
+        name: guild.name,
       },
       user: {
-        name: member.user.username,
+        name: member.username,
         id: member.id,
       },
     });
 
-    consola.info(`Starting verification for: ${member.user.username}`);
+    consola.info(`Starting verification for: ${member.username}`);
 
     if (this.settings.logChannel.id)
       this.settings.logChannel.channel.createMessage(
         this.master.strings.bot.info["VERIFICATION_STARTING"].replace(
           /\{0\}/g,
-          member.user.username
+          member.username
         )
       );
 
     const dmChannel = await member.user.getDMChannel();
+    if (!dmChannel) return false;
     await this.createMessage(
       dmChannel.id,
       this.master.strings.bot.info["VERIFICATION_PRIVATE_MESSAGE"]
-        .replace(/\{0\}/g, member.user.username)
-        .replace(/\{1\}/g, member.guild.name)
+        .replace(/\{0\}/g, member.username)
+        .replace(/\{1\}/g, guild.name)
         .replace(
           /\{2\}/g,
           `${process.env.HOST}/verify/${member.guild.id}/${member.id}`

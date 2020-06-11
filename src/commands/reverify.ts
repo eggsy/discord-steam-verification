@@ -52,7 +52,7 @@ export default class ReverifyCommand extends Command {
           .replace(/\{1\}/g, notremoved.map((r) => `${r}`).join(", "))
       );
     else {
-      ctx.bot.startVerification(member);
+      ctx.bot.startVerification(ctx.guild, member);
       ctx.channel.createMessage(
         ctx.bot.master.strings.bot.commands.reverify["SUCCESS"]
       );
