@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "devScript",
-    "compile": "rimraf dist && yarn --silent && tsc && devScript --copyOnly",
+    "compile": "rimraf dist && yarn --silent && tsc",
     "start": "cd dist && node index"
   },
   "keywords": [
