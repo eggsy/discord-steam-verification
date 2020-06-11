@@ -10,9 +10,10 @@ Verify your Discord server members and check if they have specified app on their
 
 - [x] Steam authentication; users will be asked to login to their Steam account to check their library.
 - [x] Everything is customizable!
-  - Access to string files easily and **translate** the entire bot, API and website to your language!
+  - Fully customizable strings; access to string files easily and **translate** the entire bot, API and website to your language!
   - **Multiple roles** that will be given to user on successfull login!
   - **Custom punishments** for users who doesn't have the specified app in their Steam library! You can choose between two options, **kick** or **ban** the user if they are trying to access your server without having the required app/game!
+- [x] Able to store Steam IDs in an array so it won't let users use the same Steam account for different Discord accounts.
 - [x] API and website ready for production! Specially designed API, multiple endpoints, Steam authentication and simple website UI.
 - [x] Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `reverify` and `unverify` commands built-in as well as usual commands such as `disable`, `enable`, `eval` and `help`!
   - `bypass`: Manually skip the verification process for someone!
@@ -41,6 +42,8 @@ The user will be asked to login to their Steam account and then they'll see this
 The time they click "Yes", they'll send a POST request to another route and it'll send a request to Steam's API to get user's games list, and it'll try to find the specified application ID in user's library.
 
 If API finds the application in their library, it'll fire a successfull verification event so bot will get the signal and continue the progress. If user doesn't have the game, same way API will fire a failure event and bot will check your penalty settings. It'll kick the user if it's set to kick and it'll ban the user if it's set to ban. Don't worry, you can choose not to do anything or bypass the user with `bypass` command.
+
+When user that is in the verification queue leaves the server, they'll be removed from the queue automatically. Bot will notify you when user's DMs are disabled so you will know which users didn't get the message.
 
 If API can't reach the data, it'll show an error box to the user with the message you specified to tell them that they got some issues with their profile (it's mostly caused when profile is set to private). **YES** user needs to have a public Steam profile so bot API can check the user's library.
 
