@@ -32,15 +32,11 @@ There's an API and bot, always in communicate with each other, they keep the dat
 
 When a user joins to your server, bot will check if they _somehow_ got the sucess roles. If they have it, bot won't do anything. But if they don't have the specified roles, it'll start the verification process and send the user a message including your API's URL.
 
-<center>
-  <img alt="verification message" src="images/verification_message.png">
-</center>
+![verification message](/images/verification_message.png)
 
 The user will be asked to login to their Steam account and then they'll see this page:
 
-<center>
-  <img alt="verification page" src="images/verification_page.png">
-</center>
+![verification page](/images/verification_page.png)
 
 The time they click "Yes", they'll send a POST request to another route and it'll send a request to Steam's API to get user's games list, and it'll try to find the specified application ID in user's library.
 
@@ -50,8 +46,7 @@ If API can't reach the data, it'll show an error box to the user with the messag
 
 That's all, but please do not forget this is not the "best version" of what you want. You may be looking for a better product but you're very welcome to contribute! I'll be looking forward to your pull request and bug reports! Please feel free to get in contact with me from [my website](https://eggsy.codes) and check out m other projects too!
 
-> ⚠ ⚠ ⚠ **Caution!** ⚠⚠⚠
-> This project has no database so all of you could easily setup and start using it, you can edit your clone to have a database or wait for me to create another branch with a version that includes database connection. **Your verification queue will be lost** when you restart the bot or something happens. **And your settings won't be available** until you restart the bot! So make sure to set your config and everything, test it on a private server and then start using it on your main server!
+> ⚠ **Caution!** This project has no database so all of you could easily setup and start using the project, you can edit your clone to have a database or wait for me to create another branch with a version that includes database connection. **Your verification queue will be lost** when you restart the bot or something happens. **And your settings won't be available** until you restart the bot! So make sure to set your config and everything, test it on a private server and then start using it on your main server!
 
 ### 🛠 Requirements
 
@@ -74,3 +69,7 @@ Make sure you have all the required programs and modules installed before this s
     - Start the compiled code: `yarn start`
 
 You will now have your very own `discord-steam-verification` bot and API running! Invite your bot to your server and it'll start verifying new users!
+
+### Thanks
+
+The bot is written in [Eris](https://abal.moe/Eris), and like every other part, it is developped in TypeScript using the cool features of [ts-devscript](https://www.npmjs.com/package/ts-devscript) and many other creators of the modules used in this project!
