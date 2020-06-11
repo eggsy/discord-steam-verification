@@ -32,11 +32,15 @@ There's an API and bot, always in communicate with each other, they keep the dat
 
 When a user joins to your server, bot will check if they _somehow_ got the sucess roles. If they have it, bot won't do anything. But if they don't have the specified roles, it'll start the verification process and send the user a message including your API's URL.
 
-<center><img alt="verification message" src="images/verification_message.png"></center>
+<center>
+  <img alt="verification message" src="images/verification_message.png">
+</center>
 
 The user will be asked to login to their Steam account and then they'll see this page:
 
-<center><img alt="verification page" src="images/verification_page.png"></center>
+<center>
+  <img alt="verification page" src="images/verification_page.png">
+</center>
 
 The time they click "Yes", they'll send a POST request to another route and it'll send a request to Steam's API to get user's games list, and it'll try to find the specified application ID in user's library.
 
