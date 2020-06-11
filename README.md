@@ -65,7 +65,7 @@ Make sure you have all the required programs and modules installed before this s
 - Start the bot in **development** or **production** mode.
   - For development, type this in your terminal: `yarn dev`
   - For production, follow these steps:
-    - Compile the code with: `yarn compile`
+    - Compile the code with: `yarn compile` (compile with `yarn compile-linux` instead if you're on Linux/macOS)
     - Start the compiled code: `yarn start`
 
 You will now have your very own `discord-steam-verification` bot and API running! Invite your bot to your server and it'll start verifying new users!
