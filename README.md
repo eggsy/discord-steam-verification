@@ -89,8 +89,8 @@ You will now have your very own `discord-steam-verification` bot and API running
 
 ### 📄 TODO (maybe list)
 
-- [] A version/branch that uses a database to store data instead of memory or a local file.
-- [] A version/branch that uses Discord authentication as well as Steam authentication so users will have no chance to fake the system.
+- [ ] A version/branch that uses a database to store data instead of memory or a local file.
+- [ ] A version/branch that uses Discord authentication as well as Steam authentication so users will have no chance to fake the system.
 
 ### 🐛 Bugs
 
