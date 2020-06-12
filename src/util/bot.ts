@@ -67,7 +67,7 @@ export default class Bot extends Client {
     if (this.settings.backup.auto && this.settings.backup.interval)
       setInterval(
         () => this.backupOrImport(),
-        60 * this.settings.backup.interval
+        1000 * this.settings.backup.interval
       );
 
     this.loadCommands();
