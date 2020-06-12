@@ -30,11 +30,21 @@ export default class VerifyPostRoute extends Route {
         error: true,
         message: api.master.strings.api.info["USER_NOT_IN_VERIFICATION"],
       });
-    else if (api.master.bot.settings.usedAccounts.includes(`${req.body.userId}/${req.body.steamId}`))
+    else if (
+      api.master.usedAccounts.includes(`${req.body.userId}/${req.body.steamId}`)
+    ) {
+      api.master.bot.emit(
+        "verificationFailed",
+        `${req.body.serverId}/${req.body.userId}/true`
+      );
+
+      api.master.queue.delete(`${req.body.serverId}/${req.body.userId}`);
+
       return res.status(400).json({
         error: true,
         message: api.master.strings.api.info["ACCOUNT_ALREADY_USED"],
       });
+    }
 
     try {
       // The Steam API endpoint of getting users' game list.
@@ -74,7 +84,9 @@ export default class VerifyPostRoute extends Route {
               api.master.strings.api.endpoints.verifyPost["APP_NOT_FOUND"],
           });
         } else {
-          api.master.bot.settings.usedAccounts.push(`${req.body.userId}/${req.body.steamId}`);
+          api.master.usedAccounts.push(
+            `${req.body.userId}/${req.body.steamId}`
+          );
 
           api.master.bot.emit(
             "verificationPassed",

@@ -8,22 +8,23 @@ export default class VerificationPassedEvent extends Event {
   async execute(id: string, bot: Bot) {
     if (!bot.master.queue.has(id)) return;
 
-    const server = await bot.guilds.get(id.split("/")[0]),
-      user = await server.members.get(id.split("/")[1]);
+    const server = bot.guilds.get(id.split("/")[0]),
+      user = server.members.get(id.split("/")[1]);
 
-    bot.settings.successRoles.map(async (r) => {
+    for (let key in bot.settings.successRoles) {
       try {
-        const role = server.roles.get(r);
-
-        if (role) user.addRole(role.id);
-        else if (!role)
+        const role = server.roles.get(bot.settings.successRoles[key]);
+        if (role) await user.addRole(role.id);
+        else
           consola.error(
-            `Role with ID ${r} not found, please remove it from your config.`
+            `Role with ID ${bot.settings.successRoles[key]} not found, please remove it from your config.`
           );
       } catch (err) {
-        consola.error(err);
+        consola.error(
+          `Couldn't add the role (${bot.settings.successRoles[key]}) to the user ${user.username}.`
+        );
       }
-    });
+    }
 
     consola.success(`User has passed verification: ${user.username}`);
 

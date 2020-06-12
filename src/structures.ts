@@ -6,6 +6,7 @@ import Bot from "./util/bot";
 export class Master {
   api: API;
   bot: Bot;
+  usedAccounts: string[];
   queue: Map<
     string,
     {
@@ -33,6 +34,12 @@ export abstract class Command {
 export abstract class Event {
   abstract name: string;
   abstract execute(...args: any);
+}
+
+export enum failureAction {
+  NONE,
+  KICK,
+  BAN,
 }
 
 /*

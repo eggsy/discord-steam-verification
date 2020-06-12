@@ -6,7 +6,8 @@ export default {
       ":white_check_mark: User **{0}** has successfully passed verification.",
     VERIFICATION_FAILED:
       ":name_badge: User {0} (`{1}`) doesn't have the app/game in their library!",
-    USER_DMS_DISABLED: ":warning: User ${member.mention} (`{0} - ${1}`) has their DMs disabled.",
+    USER_DMS_DISABLED:
+      ":warning: User {0} (`{1} - ${2}`) has their DMs disabled.",
     VERIFICATION_BYPASSED:
       ":white_check_mark: User **{0}** has been removed/bypassed from verification by **{1}**.",
     VERIFICATION_BYPASSED_PM: {
@@ -15,6 +16,8 @@ export default {
       SECOND:
         "_Please note that the bot was unable to give you some roles, you may not have full access to the server._",
     },
+    USER_LEFT_SERVER:
+      ":anger: User {0} (`{1}`) left the server before completing the verification.",
     VERIFICATION_PRIVATE_MESSAGE:
       "Hello **{0}** :wave: You have to verify yourself before starting to chat in **{1}** server! Please use the following link to verify that you own the specific Steam item in your library.\n\n:link: <{2}>",
   },
@@ -41,25 +44,37 @@ export default {
         ALREADY_ENABLED:
           ":no_entry: The bot is already enabled and functioning.",
       },
+      export: {
+        NOTHING_TO_EXPORT: ":no_entry: There's nothing to export.",
+        PERMISSION_ERROR:
+          ":no_entry: Couldn't create a backup to: `{0}`, please check file's permissions.",
+      },
       eval: {
         ERROR: ":no_entry: **Error**:\n\n{0}",
       },
       help: {
         COMMAND_NOT_FOUND: "Couldn't found any command with the name: `{0}`",
       },
+      import: {
+        NO_BACKUP_FILE: ":no_entry: Coulndn't find the backup file in: `{0}`",
+        NOTHING_TO_IMPORT:
+          ":no_entry: Nothing to import in this file. Please make sure the file structure is correct.",
+        PERMISSION_ERROR:
+          ":no_entry: Couldn't read the backup from: `{0}`, please check file permissions.",
+      },
       list: {
         NO_USERS_IN_VERIFICATION:
           ":no_entry: There aren't any users waiting for verification right now.",
       },
-      reverify: {
+      verify: {
         COULDNT_REMOVE_ROLES:
           ":no_entry: Couldn't remove any roles from user. Here's the list the roles we couldn't remove: {0}",
         PARTIALLY_REMOVED:
-          ":grey_question: We were unable to remove some roles from this user, we have succeeded removing {0} roles but we couldn't remove: {1}",
+          ":grey_question: We were unable to remove some role(s) from this user, we have succeeded removing {0} role(s) but we couldn't remove: {1}",
       },
       unverify: {
         NO_VERIFIED_ROLES:
-          ":no_entry: This user doesn't have verified roles. Please make sure they're verified and they have all the success roles.",
+          ":no_entry: This user doesn't have any of the verified roles. Please make sure they're verified and they have all the success role(s).",
       },
     },
   },
@@ -80,6 +95,10 @@ export default {
       SUCCESS:
         ":white_check_mark: Bot will continue working on every server now.",
     },
+    export: {
+      SUCCESS:
+        ":white_check_mark: Backup successfully created to the path: `{0}`",
+    },
     eval: {
       OUTPUT: ":white_check_mark: **Output:**\n{0}",
     },
@@ -96,16 +115,20 @@ export default {
           },
           ALTERNATIVES: {
             title: "Alternatives",
-            value_NO_ALIASES: "No aliases",
+            value_no_aliases: "No aliases",
           },
         },
       },
+    },
+    import: {
+      SUCCESS:
+        ":white_check_mark: Backup successfully restored with total amount of **{0}** users waiting in the queue and **{1}** used Steam accounts.",
     },
     isverified: {
       USER_IS_VERIFIED:
         ":white_check_mark: This user is verified and has all the roles they need!",
       USER_NOT_VERIFIED:
-        ":no_entry: This user is not verified. Please use the `reverify` command to make sure they're verified.",
+        ":no_entry: This user is not verified. Please use the `verify` command to make sure they're verified.",
       MISSING_ROLES:
         ":information_source: This user has some of the verification roles but seems like they're missing some roles, the IDs of missing roles are: {0}",
     },
@@ -119,21 +142,27 @@ export default {
         },
       },
     },
-    reverify: {
+    verify: {
       SUCCESS:
         ":white_check_mark: Successfully removed all roles from user and started the verification process.",
     },
     unverify: {
       SUCCESS:
         ":white_check_mark: Successfully removed all successfull verification roles from the user.",
+      SUCCESS_QUEUE:
+        ":white_check_mark: User didn't have the success roles but was in the queue for verification; user has been removed from the queue.",
     },
   },
   events: {
     verificationFailed: {
       FAILED_PRIVATE_MESSAGE:
         ":name_badge: You don't have the required app in your Steam library. You have failed verification and bot will take action according to the server's settings.",
+      FAILED_PM_SAME_ACCOUNT:
+        ":name_badge: You have tried to use a Steam account that has been used by someone else before. Bot will take action according to the server's settings.",
       FAILED_LOG_MESSAGE:
-        ":name_badge: User {0} (`{1}`) doesn't have the app/game in their library!",
+        ":name_badge: User {0} (`{1}`/`{2}`) doesn't have the app/game in their library!",
+      FAILED_SAME_ACCOUNT_LOG:
+        ":name_badge: User {0} (`{1}`/`{2}`) tried to use the same Steam account as someone else to verify themselves!",
       AUDIT_LOG_REASON_KICK:
         "User has been kicked for not having app in their Steam library.",
       AUDIT_LOG_REASON_BAN:

@@ -28,6 +28,7 @@ export default class Main extends Master {
   bot = new Bot(new Config(), this);
   api = new API(Number(process.env.API_PORT) || 3000, this);
   queue = new Map();
+  usedAccounts: string[] = [];
   strings = {
     bot: stringsBot,
     api: stringsApi,

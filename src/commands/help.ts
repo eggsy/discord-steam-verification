@@ -10,12 +10,23 @@ export default class HelpCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length) {
       const added: string[] = [];
-      let message: string = "";
+
+      let message: string = "",
+        longestName: string = "";
+
+      ctx.bot.commands.forEach((command: Command) => {
+        if (command.name.length > longestName.length)
+          longestName = command.name;
+      });
 
       ctx.bot.commands.forEach((command: Command) => {
         if (added.includes(command.name)) return;
 
-        message += `\`${command.name}\`: ${command.description}\n`;
+        message += `\`${command.name}${
+          command.name.length < longestName.length
+            ? " ".repeat(longestName.length - command.name.length)
+            : ""
+        }\` - ${command.description}\n`;
         added.push(command.name);
       });
 
@@ -77,7 +88,7 @@ export default class HelpCommand extends Command {
                 ? command.aliases.join(", ")
                 : ctx.bot.master.strings.bot.commands.help.embed.fields[
                     "ALTERNATIVES"
-                  ]["value_NO_ALIASES"],
+                  ]["value_no_aliases"],
               inline: true,
             },
           ],

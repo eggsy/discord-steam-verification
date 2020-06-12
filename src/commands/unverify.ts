@@ -26,14 +26,33 @@ export default class UnverifyCommand extends Command {
         ctx.bot.master.strings.bot.errors.commands.common["MEMBER_NOT_FOUND"]
       );
 
-    if (ctx.bot.settings.successRoles.some((r) => !member.roles.includes(r)))
+    if (
+      ctx.bot.settings.successRoles.some((r) => !member.roles.includes(r)) &&
+      !ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`)
+    )
       return ctx.channel.createMessage(
         ctx.bot.master.strings.bot.errors.commands.unverify["NO_VERIFIED_ROLES"]
       );
+    else if (
+      !ctx.bot.settings.successRoles.some((r) => member.roles.includes(r)) &&
+      ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`)
+    ) {
+      ctx.bot.master.queue.delete(`${ctx.guild.id}/${member.id}`);
 
-    ctx.bot.settings.successRoles.map((r) => member.removeRole(r));
-    ctx.channel.createMessage(
-      ctx.bot.master.strings.bot.commands.unverify["SUCCESS"]
-    );
+      ctx.channel.createMessage(
+        ctx.bot.master.strings.bot.commands.unverify["SUCCESS_QUEUE"]
+      );
+    } else {
+      if (ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`))
+        ctx.bot.master.queue.delete(`${ctx.guild.id}/${member.id}`);
+
+      for (let key in ctx.bot.settings.successRoles) {
+        member.removeRole(ctx.bot.settings.successRoles[key]);
+      }
+
+      ctx.channel.createMessage(
+        ctx.bot.master.strings.bot.commands.unverify["SUCCESS"]
+      );
+    }
   }
 }

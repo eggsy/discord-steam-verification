@@ -44,7 +44,7 @@ export default class IsVerifiedCommand extends Command {
       return ctx.channel.createMessage(
         ctx.bot.master.strings.bot.commands.isverified["MISSING_ROLES"].replace(
           /\{0\}/g,
-          opposite.map((r) => `${r}`).join(", ")
+          opposite.map((r) => "`" + r + "`").join(", ")
         )
       );
     else if (opposite.length === ctx.bot.settings.successRoles.length)

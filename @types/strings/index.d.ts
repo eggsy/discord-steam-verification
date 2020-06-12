@@ -9,6 +9,7 @@ interface BotStrings {
       FIRST: string;
       SECOND: string;
     };
+    USER_LEFT_SERVER: string;
     VERIFICATION_PRIVATE_MESSAGE: string;
   };
   errors: {
@@ -29,16 +30,25 @@ interface BotStrings {
       enable: {
         ALREADY_ENABLED: string;
       };
+      export: {
+        NOTHING_TO_EXPORT: string;
+        PERMISSION_ERROR: string;
+      };
       eval: {
         ERROR: string;
       };
       help: {
         COMMAND_NOT_FOUND: string;
       };
+      import: {
+        NO_BACKUP_FILE: string;
+        NOTHING_TO_IMPORT: string;
+        PERMISSION_ERROR: string;
+      };
       list: {
         NO_USERS_IN_VERIFICATION: string;
       };
-      reverify: {
+      verify: {
         COULDNT_REMOVE_ROLES: string;
         PARTIALLY_REMOVED: string;
       };
@@ -62,6 +72,9 @@ interface BotStrings {
     enable: {
       SUCCESS: string;
     };
+    export: {
+      SUCCESS: string;
+    };
     eval: {
       OUTPUT: string;
     };
@@ -77,10 +90,13 @@ interface BotStrings {
           };
           ALTERNATIVES: {
             title: string;
-            value_NO_ALIASES: string;
+            value_no_aliases: string;
           };
         };
       };
+    };
+    import: {
+      SUCCESS: string;
     };
     isverified: {
       USER_IS_VERIFIED: string;
@@ -97,17 +113,20 @@ interface BotStrings {
         };
       };
     };
-    reverify: {
+    verify: {
       SUCCESS: string;
     };
     unverify: {
       SUCCESS: string;
+      SUCCESS_QUEUE: string;
     };
   };
   events: {
     verificationFailed: {
       FAILED_PRIVATE_MESSAGE: string;
+      FAILED_PM_SAME_ACCOUNT: string;
       FAILED_LOG_MESSAGE: string;
+      FAILED_SAME_ACCOUNT_LOG: string;
       AUDIT_LOG_REASON_KICK: string;
       AUDIT_LOG_REASON_BAN: string;
     };
@@ -156,6 +175,5 @@ interface WebsiteStrings {
     };
   };
   SUCCESS_MESSAGE: string;
-  ERROR_MESSAGE: string;
   CLOSE_PAGE_MESSAGE: string;
 }

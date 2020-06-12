@@ -4,6 +4,9 @@ package-lock.json
 .env
 dist
 
+# Default backup file name
+DSV_Backup*
+
 # Compiled files
 **/*.js
 

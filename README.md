@@ -6,6 +6,14 @@
 
 Verify your Discord server members and check if they have specified app on their Steam library! Give them roles on successfull verification and punish them if they don't have it in their library!
 
+### ⏬ Skip right to:
+- [❓ How does it work?](#-how-does-it-work)
+- [🛠 Requirements](#-requirements)
+- [📩 Installation](#-installation)
+- [📄 Todo](#-todo)
+- [🐛 Bugs](#-bugs)
+- [🙏 Thanks](#-thanks)
+
 ### 🔥 Features
 
 - [x] Steam authentication; users will be asked to login to their Steam account to check their library.
@@ -13,21 +21,24 @@ Verify your Discord server members and check if they have specified app on their
   - Fully customizable strings; access to string files easily and **translate** the entire bot, API and website to your language!
   - **Multiple roles** that will be given to user on successfull login!
   - **Custom punishments** for users who doesn't have the specified app in their Steam library! You can choose between two options, **kick** or **ban** the user if they are trying to access your server without having the required app/game!
+- [x] Backups! **Automatic** or not! Set it as you wish and leave the rest to the bot. Bot will read your settings and it'll back up the queue and Steam ID array so you won't lose your stuff when you restart your bot! _Keep in mind you'll have to use the import command to import the backup file after every first start to load your backup_.
 - [x] Able to store Steam IDs in an array so it won't let users use the same Steam account for different Discord accounts.
 - [x] API and website ready for production! Specially designed API, multiple endpoints, Steam authentication and simple website UI.
-- [x] Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `reverify` and `unverify` commands built-in as well as usual commands such as `disable`, `enable`, `eval` and `help`!
+- [x] Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `verify` and `unverify` commands built-in as well as usual commands such as `eval` and `help`!
   - `bypass`: Manually skip the verification process for someone!
   - `disable`: Disable the bot, this will stop verification process' on new member join and **clear the verification queue**.
   - `emit` or `verifyself`: This will start the verification for the message author, **don't forget** if a user has all of the success roles, they won't be able to use this command unless you remove their roles or use the `unverify` command.
   - `enable`: Enables the bot and starts verification process for every new user.
   - `eval`: Evaluates a JavaScript code. Only those with higher possible permission (Administrator) is able to use this command.
+  - `export`: Manually exports/backs-up the data on memory to a local file so you can import it later.
   - `help`: List of commands and their explanations, more explenation if a command name included after the command.
+  - `import`: Imports the data in the backup file to memory, so you can have your items back!
   - `isverified`: Check if a user has all the success roles that is specified in your config.
   - `list`: Lists all users waiting in the queue for verification.
-  - `reverify`: Removes all the success roles and starts the verification process for specified user.
   - `unverify`: Removes all the success roles from user.
+  - `verify`: Removes all the success roles and starts the verification process for specified user.
 
-### ❓ How does it work?
+### ❓ How does it work
 
 There's an API and bot, always in communicate with each other, they keep the data in a main class and reads data from there so everything is synced between bot and API.
 
@@ -49,7 +60,7 @@ If API can't reach the data, it'll show an error box to the user with the messag
 
 That's all, but please do not forget this is not the "best version" of what you want. You may be looking for a better product but you're very welcome to contribute! I'll be looking forward to your pull request and bug reports! Please feel free to get in contact with me from [my website](https://eggsy.codes) and check out m other projects too!
 
-> ⚠ **Caution!** This project has no database so all of you could easily setup and start using the project, you can edit your clone to have a database or wait for me to create another branch with a version that includes database connection. **Your verification queue will be lost** when you restart the bot or something happens. **And your settings won't be available** until you restart the bot! So make sure to set your config and everything, test it on a private server and then start using it on your main server! If you are looking for a way to prevent scam accounts and verify all new members, you may take a look at [this bot](https://altdentifier.com/).
+> ⚠ **Caution!** This project has no database so all of you could easily setup and start using the project, you can edit your clone to have a database or wait for me to create another branch with a version that includes database connection. **Your verification queue will be lost unless you back it up with command or auto-backup feature** when you restart the bot or something happens. **And your settings won't be available** until you restart the bot! So make sure to set your config and everything, test it on a private server and then start using it on your main server! If you are looking for a way to prevent scam accounts and verify all new members, you may take a look at [this bot](https://altdentifier.com/).
 
 ### 🛠 Requirements
 
@@ -73,6 +84,15 @@ Make sure you have all the required programs and modules installed before this s
 
 You will now have your very own `discord-steam-verification` bot and API running! Invite your bot to your server and it'll start verifying new users!
 
-### Thanks
+### 📄 TODO (maybe list)
+
+- [] A version/branch that uses a database to store data instead of memory or a local file.
+- [] A version/branch that uses Discord authentication as well as Steam authentication so users will have no chance to fake the system.
+
+
+### 🐛 Bugs
+Please report!
+
+### 🙏 Thanks
 
 The bot is written in [Eris](https://abal.moe/Eris), and like every other part, it is developped in TypeScript using the cool features of [ts-devscript](https://www.npmjs.com/package/ts-devscript) and many other creators of the modules used in this project!

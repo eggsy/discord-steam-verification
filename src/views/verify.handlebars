@@ -62,8 +62,8 @@
       }
     } catch (err) {
       console.error(err);
-      if (error.response.status === 500) return alert("{{ strings.ERROR_MESSAGE }}");
-      else return alert(error.response.data.message);
+      if (!err.response || !err.response.data || !err.response.data.message) return;
+      alert(err.response.data.message);
     }
   });
 

@@ -20,7 +20,5 @@ export default {
   },
   SUCCESS_MESSAGE:
     "Awesome! You are now verified and can access the special stuff in our server! Have fun!",
-  ERROR_MESSAGE:
-    "Something happened, please check your console to see more information",
   CLOSE_PAGE_MESSAGE: "Do you want to close this page and stop verification?",
 };

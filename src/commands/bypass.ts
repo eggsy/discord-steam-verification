@@ -31,13 +31,16 @@ export default class BypassCommand extends Command {
       );
     else {
       const notAdded: string[] = [];
-      ctx.bot.settings.successRoles.map((r) => {
+
+      for (let key in ctx.bot.settings.successRoles) {
+        const role = ctx.guild.roles.get(ctx.bot.settings.successRoles[key]);
+
         try {
-          member.addRole(r);
+          member.addRole(role.id);
         } catch (err) {
-          notAdded.push(ctx.guild.roles.get(r).name);
+          notAdded.push(role.name);
         }
-      });
+      }
 
       if (notAdded.length === ctx.bot.settings.successRoles.length)
         return ctx.channel.createMessage(
@@ -51,7 +54,7 @@ export default class BypassCommand extends Command {
         ctx.channel.createMessage(
           ctx.bot.master.strings.bot.errors.commands.bypass[
             "PARTIALLY_ADDED"
-          ].replace(/\{0\}/g, notAdded.map((r) => `${r}`).join(", "))
+          ].replace(/\{0\}/g, notAdded.map((r) => "`" + r + "`").join(", "))
         );
       } else {
         const removed = await ctx.bot.stopVerification(member, ctx.author);

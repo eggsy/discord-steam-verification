@@ -15,7 +15,7 @@ export default {
         "Couldn't fetch anything from Steam API. Please make sure your profile is set to public and people can see your game details, and then try again.",
       APP_NOT_FOUND: "User doesn't have the app in their library.",
       STEAM_API_ERROR:
-        "Something happened while sending the request to the Steam API.",
+        "Something happened while sending the request to the Steam API. Please check your console and try again later.",
     },
   },
 };

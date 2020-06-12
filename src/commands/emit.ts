@@ -10,13 +10,15 @@ export default class EmitCommand extends Command {
   execute(ctx: Params) {
     const memberRoles: string[] = [];
     if (ctx.author.roles && ctx.author.roles.length)
-      ctx.bot.settings.successRoles.forEach((r) =>
-        ctx.author.roles.includes(r) ? memberRoles.push(r) : null
-      );
+      for (let key in ctx.bot.settings.successRoles) {
+        const id = ctx.bot.settings.successRoles[key];
+
+        if (ctx.author.roles.includes(id)) memberRoles.push(id);
+      }
 
     if (ctx.bot.settings.successRoles.length === memberRoles.length)
       return ctx.message.addReaction("⛔").catch(null);
 
-    ctx.bot.emit("guildMemberAdd", ctx.author);
+    ctx.bot.emit("guildMemberAdd", ctx.guild, ctx.author);
   }
 }

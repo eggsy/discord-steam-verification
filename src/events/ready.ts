@@ -13,6 +13,10 @@ export default class ReadyEvent extends Event {
       consola.error(
         "Log channel set to non-text channel. Please set it to a text channel and restart the bot."
       );
+    else if (!channel)
+      return consola.error(
+        "Log channel couldn't be found. Please make sure you have set a log channel."
+      );
     else bot.settings.logChannel.channel = channel as TextChannel;
 
     bot.settings.servers = bot.guilds.map((s) => s.id);

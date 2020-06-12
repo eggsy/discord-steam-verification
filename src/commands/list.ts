@@ -17,8 +17,9 @@ export default class ListCommand extends Command {
       );
 
     const list: string[] = [];
+
     ctx.bot.master.queue.forEach((u) => {
-      list.push(u.user.name);
+      list.push(`${u.user.name} (\`${u.user.id}\`)`);
     });
 
     ctx.channel.createMessage({
