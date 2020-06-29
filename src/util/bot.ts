@@ -78,6 +78,8 @@ export default class Bot extends Client {
 
   async run() {
     consola.info("Bot is starting...");
+
+    if (this.settings.backup.auto) this.backupOrImport(false);
     this.connect();
   }
 
