@@ -23,7 +23,7 @@ export class Master {
 */
 
 export abstract class Command {
-  abstract name: string;
+  name?: string;
   abstract description: string;
   abstract aliases: string[];
   abstract usage: string;
@@ -32,7 +32,7 @@ export abstract class Command {
 }
 
 export abstract class Event {
-  abstract name: string;
+  name?: string;
   abstract execute(...args: any);
 }
 

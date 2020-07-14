@@ -9,14 +9,14 @@ export class Config {
   prefix = "!";
 
   // Roles that will be given to user on successfull verification
-  roles = ["715852979663798312"];
+  roles = ["732568597229993995"];
 
   // Choose what action bot will take when user doesn't have the app in their library.
   // Options: 0 = NONE, 1 = KICK, 2 = BAN
   failureAction = 2;
 
   // Set if you want to log verification steps to a channel
-  logChannel = "434421748612464640";
+  logChannel = "732568606059003920";
 
   // Set backup options, you can also use "export" and "import" commands
   backup = {

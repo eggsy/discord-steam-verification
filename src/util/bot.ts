@@ -94,7 +94,7 @@ export default class Bot extends Client {
           `./commands/${name}`
         )).default)();
 
-        this.commands.set(command.name, command);
+        this.commands.set(command.name || name, command);
 
         for (let alias of command.aliases) {
           this.commands.set(alias, command);
@@ -113,23 +113,9 @@ export default class Bot extends Client {
 
       const event: Event = new (require(resolve(`./events/${name}`)).default)();
 
-      if (event.name === "messageCreate")
-        this.on("messageCreate", (message) => event.execute(message, this));
-      else if (
-        event.name === "guildMemberAdd" ||
-        event.name === "guildMemberRemove"
-      )
-        this.on(event.name, (guild, member) =>
-          event.execute(guild, member, this)
-        );
-      else if (event.name === "ready")
-        this.once("ready", () => event.execute(this));
-      else if (
-        event.name === "verificationPassed" ||
-        event.name === "verificationFailed"
-      )
-        this.on(event.name, (id: string) => event.execute(id, this));
-      else this.on(event.name, event.execute);
+      this.on(event.name || name, (...keys: string[]) =>
+        event.execute(...keys, this)
+      );
     });
   }
 

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "devScript",
-    "compile": "rimraf dist && yarn --silent && tsc && devScript --copyOnly",
-    "compile-linux": "rimraf dist && yarn --silent && tsc && rsync --recursive src/views/* dist/views/",
+    "compile": "rimraf dist && yarn --silent && tsc && rsync --recursive src/views/* dist/views/",
     "start": "cd dist && node index"
   },
   "keywords": [
