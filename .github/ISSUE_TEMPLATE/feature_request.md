@@ -4,7 +4,7 @@ about: What should I add to this project and make it even better than it is righ
   now?
 title: "[FEATURE REQUEST] "
 labels: enhancement
-assignees: eggsywashere
+assignees: eggsydev
 
 ---
 

@@ -1,6 +1,6 @@
 ## Discord Steam Verification
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/49ad603e6b844d4994fa992fa9f27372)](https://www.codacy.com/manual/eggsywashere/discord-steam-verification?utm_source=github.com&utm_medium=referral&utm_content=eggsywashere/discord-steam-verification&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/49ad603e6b844d4994fa992fa9f27372)](https://www.codacy.com/manual/eggsydev/discord-steam-verification?utm_source=github.com&utm_medium=referral&utm_content=eggsydev/discord-steam-verification&utm_campaign=Badge_Grade)
 
 > 🚧 This bot has **power** to kick or ban your users if they can't verify themselves. Please use it on your own risk and make sure to run some tests before using it on your server!
 
@@ -73,7 +73,7 @@ This bot requires [Node.JS](https://nodejs.org/en/download/), [TypeScript](https
 
 Make sure you have all the required programs and modules installed before this step!
 
-- Clone this repository: `git clone https://github.com/eggsywashere/discord-steam-verification`
+- Clone this repository: `git clone https://github.com/eggsydev/discord-steam-verification`
 - Install modules with `yarn`
   - `cd` to your clone folder.
   - Type `yarn` in your terminal.

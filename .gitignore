@@ -22,3 +22,4 @@ DSV_Backup*
 
 # Exception for extension recommendations
 !**/.vscode/extensions.json
+src/config.ts

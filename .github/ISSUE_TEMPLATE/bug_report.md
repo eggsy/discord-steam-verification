@@ -3,7 +3,7 @@ name: Bug report
 about: You caught a bug? Please report to me!
 title: "[BUG] "
 labels: bug
-assignees: eggsywashere
+assignees: eggsydev
 
 ---
 
@@ -29,9 +29,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **System information (required if it's an issue about API or website):**
-- OS: 
-- Browser: 
-- Version: 
+- OS:
+- Browser:
+- Version:
 - Node.JS version:
 
 **Additional context**

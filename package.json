@@ -13,7 +13,7 @@
     "steam",
     "verification"
   ],
-  "author": "eggsywashere",
+  "author": "eggsydev",
   "license": "MIT",
   "dependencies": {
     "@types/express": "^4.17.6",
