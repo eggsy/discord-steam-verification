@@ -128,8 +128,8 @@ export default {
       embed: {
         MESSAGE: ":information_source: Queue stats for your server.", // ℹ
         fields: {
-          QUEUE: ":person_raising_hand: Verification Queue", // 🙋‍♂️
-          VERIFIED: ":partying_face: Total Verified", // 🥳
+          QUEUE: "Verification Queue",
+          VERIFIED: "Total Verified",
         },
       },
     },

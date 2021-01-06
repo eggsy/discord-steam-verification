@@ -20,7 +20,6 @@ export default class ImportCommand extends Command {
         {
           name: ctx.bot.strings.commands.info.embed.fields.VERIFIED,
           value: String(ctx.bot?.master?.usedAccounts?.length || 0),
-          inline: true,
         },
       ],
       footer: {
