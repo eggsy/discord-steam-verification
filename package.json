@@ -1,6 +1,6 @@
 {
   "name": "discord-steam-verification",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Verify your Discord users on first join to your server and check if they have a specific app/game on their Steam library!",
   "main": "index.js",
   "scripts": {
