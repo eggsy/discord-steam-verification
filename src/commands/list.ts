@@ -11,7 +11,7 @@ export default class ListCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.bot.master.queue.size)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.list[
+        ctx.bot.strings.errors.commands.list[
           "NO_USERS_IN_VERIFICATION"
         ]
       );
@@ -24,12 +24,12 @@ export default class ListCommand extends Command {
 
     ctx.channel.createMessage({
       embed: {
-        title: ctx.bot.master.strings.bot.commands.list.embed.title,
+        title: ctx.bot.strings.commands.list.embed.title,
         description: list.join(", "),
         fields: [
           {
             name:
-              ctx.bot.master.strings.bot.commands.list.embed.fields["TOTAL"]
+              ctx.bot.strings.commands.list.embed.fields["TOTAL"]
                 .title,
             value: String(ctx.bot.master.queue.size),
             inline: true,
@@ -37,7 +37,7 @@ export default class ListCommand extends Command {
         ],
         footer: {
           text:
-            ctx.bot.master.strings.bot.commands.common.embed["NOT_AFILLIATED"],
+            ctx.bot.strings.commands.common.embed["NOT_AFILLIATED"],
           icon_url: ctx.bot.user.avatarURL,
         },
       },

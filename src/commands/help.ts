@@ -37,17 +37,17 @@ export default class HelpCommand extends Command {
           fields: [
             {
               name:
-                ctx.bot.master.strings.bot.commands.help.embed.fields[
+                ctx.bot.strings.commands.help.embed.fields[
                   "MORE_INFORMATION"
                 ]["title"],
-              value: ctx.bot.master.strings.bot.commands.help.embed.fields[
+              value: ctx.bot.strings.commands.help.embed.fields[
                 "MORE_INFORMATION"
               ]["value"].replace(/\{0\}/g, ctx.bot.prefix),
             },
           ],
           footer: {
             text:
-              ctx.bot.master.strings.bot.commands.common.embed[
+              ctx.bot.strings.commands.common.embed[
                 "NOT_AFILLIATED"
               ],
             icon_url: ctx.bot.user.avatarURL,
@@ -59,7 +59,7 @@ export default class HelpCommand extends Command {
 
       if (!ctx.bot.commands.has(command))
         return ctx.message.channel.createMessage(
-          ctx.bot.master.strings.bot.errors.commands.help[
+          ctx.bot.strings.errors.commands.help[
             "COMMAND_NOT_FOUND"
           ].replace(/\{0\}/g, command)
         );
@@ -73,7 +73,7 @@ export default class HelpCommand extends Command {
           fields: [
             {
               name:
-                ctx.bot.master.strings.bot.commands.help.embed.fields["USAGE"][
+                ctx.bot.strings.commands.help.embed.fields["USAGE"][
                   "title"
                 ],
               value: command.usage,
@@ -81,12 +81,12 @@ export default class HelpCommand extends Command {
             },
             {
               name:
-                ctx.bot.master.strings.bot.commands.help.embed.fields[
+                ctx.bot.strings.commands.help.embed.fields[
                   "ALTERNATIVES"
                 ]["title"],
               value: command.aliases.length
                 ? command.aliases.join(", ")
-                : ctx.bot.master.strings.bot.commands.help.embed.fields[
+                : ctx.bot.strings.commands.help.embed.fields[
                     "ALTERNATIVES"
                   ]["value_no_aliases"],
               inline: true,
@@ -94,7 +94,7 @@ export default class HelpCommand extends Command {
           ],
           footer: {
             text:
-              ctx.bot.master.strings.bot.commands.common.embed[
+              ctx.bot.strings.commands.common.embed[
                 "NOT_AFILLIATED"
               ],
             icon_url: ctx.bot.user.avatarURL,

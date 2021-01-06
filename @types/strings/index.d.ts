@@ -98,6 +98,15 @@ interface BotStrings {
     import: {
       SUCCESS: string;
     };
+    info: {
+      embed: {
+        MESSAGE: string;
+        fields: {
+          QUEUE: string;
+          VERIFIED: string;
+        };
+      };
+    };
     isverified: {
       USER_IS_VERIFIED: string;
       USER_NOT_VERIFIED: string;

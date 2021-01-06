@@ -11,7 +11,7 @@ export default class UnverifyCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common[
+        ctx.bot.strings.errors.commands.common[
           "WRONG_USAGE"
         ].replace(/\{0\}/g, this.usage)
       );
@@ -23,7 +23,7 @@ export default class UnverifyCommand extends Command {
 
     if (!member)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common["MEMBER_NOT_FOUND"]
+        ctx.bot.strings.errors.commands.common["MEMBER_NOT_FOUND"]
       );
 
     if (
@@ -31,7 +31,7 @@ export default class UnverifyCommand extends Command {
       !ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`)
     )
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.unverify["NO_VERIFIED_ROLES"]
+        ctx.bot.strings.errors.commands.unverify["NO_VERIFIED_ROLES"]
       );
     else if (
       !ctx.bot.settings.successRoles.some((r) => member.roles.includes(r)) &&
@@ -40,7 +40,7 @@ export default class UnverifyCommand extends Command {
       ctx.bot.master.queue.delete(`${ctx.guild.id}/${member.id}`);
 
       ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.unverify["SUCCESS_QUEUE"]
+        ctx.bot.strings.commands.unverify["SUCCESS_QUEUE"]
       );
     } else {
       if (ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`))
@@ -51,7 +51,7 @@ export default class UnverifyCommand extends Command {
       }
 
       ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.unverify["SUCCESS"]
+        ctx.bot.strings.commands.unverify["SUCCESS"]
       );
     }
   }

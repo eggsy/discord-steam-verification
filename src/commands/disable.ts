@@ -12,7 +12,7 @@ export default class DisableCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.bot.settings.enabled)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.disable["ALREADY_DISABLED"]
+        ctx.bot.strings.errors.commands.disable["ALREADY_DISABLED"]
       );
     else {
       ctx.bot.master.queue.clear();
@@ -21,7 +21,7 @@ export default class DisableCommand extends Command {
       ctx.bot.settings.enabled = false;
 
       ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.disable["SUCCESS"]
+        ctx.bot.strings.commands.disable["SUCCESS"]
       );
     }
   }

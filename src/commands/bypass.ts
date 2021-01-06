@@ -11,7 +11,7 @@ export default class BypassCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common[
+        ctx.bot.strings.errors.commands.common[
           "WRONG_USAGE"
         ].replace(/\{0\}/g, this.usage)
       );
@@ -23,11 +23,11 @@ export default class BypassCommand extends Command {
 
     if (!member)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common["MEMBER_NOT_FOUND"]
+        ctx.bot.strings.errors.commands.common["MEMBER_NOT_FOUND"]
       );
     else if (!ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`))
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common["NOT_IN_QUEUE"]
+        ctx.bot.strings.errors.commands.common["NOT_IN_QUEUE"]
       );
     else {
       const notAdded: string[] = [];
@@ -44,7 +44,7 @@ export default class BypassCommand extends Command {
 
       if (notAdded.length === ctx.bot.settings.successRoles.length)
         return ctx.channel.createMessage(
-          ctx.bot.master.strings.bot.errors.commands.bypass["NO_ROLES_ADDED"]
+          ctx.bot.strings.errors.commands.bypass["NO_ROLES_ADDED"]
         );
       else if (
         notAdded.length &&
@@ -52,7 +52,7 @@ export default class BypassCommand extends Command {
       ) {
         await ctx.bot.stopVerification(member, ctx.author, true);
         ctx.channel.createMessage(
-          ctx.bot.master.strings.bot.errors.commands.bypass[
+          ctx.bot.strings.errors.commands.bypass[
             "PARTIALLY_ADDED"
           ].replace(/\{0\}/g, notAdded.map((r) => "`" + r + "`").join(", "))
         );
@@ -61,13 +61,13 @@ export default class BypassCommand extends Command {
 
         if (!removed)
           ctx.channel.createMessage(
-            ctx.bot.master.strings.bot.errors.commands.bypass[
+            ctx.bot.strings.errors.commands.bypass[
               "COULDNT_REMOVE_QUEUE"
             ]
           );
 
         ctx.channel.createMessage(
-          ctx.bot.master.strings.bot.commands.bypass["SUCCESS"]
+          ctx.bot.strings.commands.bypass["SUCCESS"]
         );
       }
     }

@@ -18,6 +18,7 @@ export default class Bot extends Client {
   prefix: string;
   master: Master;
   ready: boolean = false;
+  strings: BotStrings;
   commands: Map<string, Command> = new Map();
   settings: BotSettings = {
     enabled: true,
@@ -63,6 +64,8 @@ export default class Bot extends Client {
     this.settings.failureAction = config.failureAction;
     this.settings.logChannel.id = config.logChannel;
     this.settings.backup = config.backup;
+
+    this.strings = master.strings.bot;
 
     if (this.settings.backup.auto && this.settings.backup.interval)
       setInterval(

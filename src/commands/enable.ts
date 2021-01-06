@@ -11,14 +11,14 @@ export default class EnableCommand extends Command {
   execute(ctx: Params) {
     if (ctx.bot.settings.enabled)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.enable["ALREADY_ENABLED"]
+        ctx.bot.strings.errors.commands.enable["ALREADY_ENABLED"]
       );
     else {
       ctx.bot.settings.enabled = true;
 
       ctx.bot.editStatus("online");
       ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.enable["SUCCESS"]
+        ctx.bot.strings.commands.enable["SUCCESS"]
       );
     }
   }

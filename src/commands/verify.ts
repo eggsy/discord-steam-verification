@@ -12,7 +12,7 @@ export default class VerifyCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common[
+        ctx.bot.strings.errors.commands.common[
           "WRONG_USAGE"
         ].replace(/\{0\}/g, this.usage)
       );
@@ -24,7 +24,7 @@ export default class VerifyCommand extends Command {
 
     if (!member)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common["MEMBER_NOT_FOUND"]
+        ctx.bot.strings.errors.commands.common["MEMBER_NOT_FOUND"]
       );
 
     const removed: string[] = [],
@@ -44,17 +44,17 @@ export default class VerifyCommand extends Command {
     if (!member.roles.length || (!notremoved.length && removed.length)) {
       ctx.bot.startVerification(ctx.guild, member);
       ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.verify["SUCCESS"]
+        ctx.bot.strings.commands.verify["SUCCESS"]
       );
     } else if (!removed.length && notremoved.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.verify[
+        ctx.bot.strings.errors.commands.verify[
           "COULDNT_REMOVE_ROLES"
         ].replace(/\{0\}/g, notremoved.map((r) => "`" + r + "`").join(", "))
       );
     else if (removed.length && notremoved.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.verify["PARTIALLY_REMOVED"]
+        ctx.bot.strings.errors.commands.verify["PARTIALLY_REMOVED"]
           .replace(/\{0\}/g, removed.map((r) => "`" + r + "`").join(", "))
           .replace(/\{1\}/g, notremoved.map((r) => "`" + r + "`").join(", "))
       );

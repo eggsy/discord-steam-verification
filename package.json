@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "devScript",
-    "compile": "rimraf dist && yarn --silent && tsc && rsync --recursive src/views/* dist/views/",
+    "build": "rimraf dist && yarn --silent && tsc && rsync --recursive src/views/* dist/views/",
     "start": "cd dist && node index"
   },
   "keywords": [
@@ -16,21 +16,21 @@
   "author": "eggsydev",
   "license": "MIT",
   "dependencies": {
-    "@types/express": "^4.17.6",
-    "@types/node": "^14.0.13",
-    "axios": "^0.19.2",
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.20",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
-    "consola": "^2.12.2",
+    "consola": "^2.15.0",
     "dotenv": "^8.2.0",
-    "eris": "^0.13.1",
+    "eris": "^0.14.0",
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.4",
+    "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "steam-login": "^0.1.7"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
     "rsync": "^0.6.1",
-    "ts-devscript": "^1.0.4"
+    "ts-devscript": "^2.0.3"
   }
 }

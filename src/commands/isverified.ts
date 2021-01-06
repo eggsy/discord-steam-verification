@@ -11,7 +11,7 @@ export default class IsVerifiedCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common[
+        ctx.bot.strings.errors.commands.common[
           "WRONG_USAGE"
         ].replace(/\{0\}/g, this.usage)
       );
@@ -23,7 +23,7 @@ export default class IsVerifiedCommand extends Command {
 
     if (!member)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.errors.commands.common["MEMBER_NOT_FOUND"]
+        ctx.bot.strings.errors.commands.common["MEMBER_NOT_FOUND"]
       );
 
     const hasRoles: string[] = [],
@@ -35,21 +35,21 @@ export default class IsVerifiedCommand extends Command {
 
     if (hasRoles.length === ctx.bot.settings.successRoles.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.isverified["USER_IS_VERIFIED"]
+        ctx.bot.strings.commands.isverified["USER_IS_VERIFIED"]
       );
     else if (
       opposite.length &&
       opposite.length < ctx.bot.settings.successRoles.length
     )
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.isverified["MISSING_ROLES"].replace(
+        ctx.bot.strings.commands.isverified["MISSING_ROLES"].replace(
           /\{0\}/g,
           opposite.map((r) => "`" + r + "`").join(", ")
         )
       );
     else if (opposite.length === ctx.bot.settings.successRoles.length)
       return ctx.channel.createMessage(
-        ctx.bot.master.strings.bot.commands.isverified["USER_NOT_VERIFIED"]
+        ctx.bot.strings.commands.isverified["USER_NOT_VERIFIED"]
       );
   }
 }

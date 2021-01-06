@@ -124,6 +124,15 @@ export default {
       SUCCESS:
         ":white_check_mark: Backup successfully restored with total amount of **{0}** users waiting in the queue and **{1}** used Steam accounts.",
     },
+    info: {
+      embed: {
+        MESSAGE: ":information_source: Queue stats for your server.", // ℹ
+        fields: {
+          QUEUE: ":person_raising_hand: Verification Queue", // 🙋‍♂️
+          VERIFIED: ":partying_face: Total Verified", // 🥳
+        },
+      },
+    },
     isverified: {
       USER_IS_VERIFIED:
         ":white_check_mark: This user is verified and has all the roles they need!",

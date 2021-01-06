@@ -25,8 +25,6 @@ import stringsWeb from "./strings/website";
 loadEnv({ path: "../.env" });
 
 export default class Main extends Master {
-  bot = new Bot(new Config(), this);
-  api = new API(Number(process.env.API_PORT) || 3000, this);
   queue = new Map();
   usedAccounts: string[] = [];
   strings = {
@@ -34,6 +32,9 @@ export default class Main extends Master {
     api: stringsApi,
     web: stringsWeb,
   };
+
+  bot = new Bot(new Config(), this);
+  api = new API(Number(process.env.API_PORT) || 3000, this);
 
   constructor() {
     super();
