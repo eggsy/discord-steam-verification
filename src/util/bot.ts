@@ -35,7 +35,7 @@ export default class Bot extends Client {
 
   constructor(config: Config, master: Master) {
     super(config.token, {
-      reconnectAttempts: 3,
+      maxReconnectAttempts: 3,
       disableEvents: {
         CHANNEL_CREATE: true,
         CHANNEL_DELETE: true,

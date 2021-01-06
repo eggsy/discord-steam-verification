@@ -28,12 +28,12 @@ export abstract class Command {
   abstract aliases: string[];
   abstract usage: string;
   requiredPerms: string[];
-  abstract async execute(args: Params);
+  abstract execute(args: Params): any | Promise<any>;
 }
 
 export abstract class Event {
   name?: string;
-  abstract execute(...args: any);
+  abstract execute(...args: any): any | Promise<any>;
 }
 
 export enum failureAction {
@@ -49,5 +49,9 @@ export enum failureAction {
 export abstract class Route {
   abstract path: string;
   method: string = "get";
-  abstract async handler(req: Request, res: Response, ...args: any);
+  abstract handler(
+    req: Request,
+    res: Response,
+    ...args: any
+  ): any | Promise<any>;
 }

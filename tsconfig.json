@@ -6,11 +6,12 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "removeComments": true,
+    "skipLibCheck": true,
     "typeRoots": [
       "@types"
-    ]
+    ],
   },
   "exclude": [
-    "node_modules"
+    "node_modules/**/*"
   ]
 }
