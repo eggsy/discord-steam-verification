@@ -15,7 +15,6 @@ export default class ImportCommand extends Command {
         {
           name: ctx.bot.strings.commands.info.embed.fields.QUEUE,
           value: String(ctx.bot?.master?.queue?.size || 0),
-          inline: true,
         },
         {
           name: ctx.bot.strings.commands.info.embed.fields.VERIFIED,
