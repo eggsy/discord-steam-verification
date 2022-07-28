@@ -10,12 +10,15 @@ Verify your Discord server members and check if they have specified app on their
 
 ### ⏬ Skip right to:
 
-- [❓ How does it work?](#-how-does-it-work)
-- [🛠 Requirements](#-requirements)
-- [📩 Installation](#-installation)
-- [📄 Todo](#-todo)
-- [🐛 Bugs](#-bugs)
-- [🙏 Thanks](#-thanks)
+- [Discord Steam Verification](#discord-steam-verification)
+  - [⏬ Skip right to:](#-skip-right-to)
+  - [🔥 Features](#-features)
+  - [❓ How does it work](#-how-does-it-work)
+  - [🛠 Requirements](#-requirements)
+  - [📩 Installation](#-installation)
+  - [📄 TODO (maybe list)](#-todo-maybe-list)
+  - [🐛 Bugs](#-bugs)
+  - [Sponsors](#sponsors)
 
 ### 🔥 Features
 
@@ -96,6 +99,10 @@ You will now have your very own `discord-steam-verification` bot and API running
 
 Please report!
 
-### 🙏 Thanks
+### Sponsors
 
-The bot is written in [Eris](https://abal.moe/Eris), and like every other part, it is developped in TypeScript using the cool features of [ts-devscript](https://www.npmjs.com/package/ts-devscript) and many other creators of the modules used in this project!
+<p align="center">
+  <a href="https://github.com/sponsors/eggsy">
+    <img src='https://cdn.jsdelivr.net/gh/eggsy/.github/sponsors.svg'/>
+  </a>
+</p>
