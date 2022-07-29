@@ -1,12 +1,10 @@
 ## Discord Steam Verification
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/49ad603e6b844d4994fa992fa9f27372)](https://www.codacy.com/manual/eggsydev/discord-steam-verification?utm_source=github.com&utm_medium=referral&utm_content=eggsydev/discord-steam-verification&utm_campaign=Badge_Grade)
+Verify your Discord server members and check if they have specified app on their Steam library! Give them roles on successfull verification and punish them if they don't have it in their library!
 
 > 🚧 This bot has **power** to kick or ban your users if they can't verify themselves. Please use it on your own risk and make sure to run some tests before using it on your server!
 
 > Please make sure to read all of the README.md (this) file before starting to use the bot.
-
-Verify your Discord server members and check if they have specified app on their Steam library! Give them roles on successfull verification and punish them if they don't have it in their library!
 
 ### ⏬ Skip right to:
 
@@ -99,7 +97,7 @@ You will now have your very own `discord-steam-verification` bot and API running
 
 Please report!
 
-### Sponsors
+### 💖 Sponsors
 
 <p align="center">
   <a href="https://github.com/sponsors/eggsy">
