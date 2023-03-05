@@ -14,8 +14,10 @@ export default class EmitCommand extends Command {
         if (ctx.author.roles.includes(id)) memberRoles.push(id);
       }
 
-    if (ctx.bot.settings.successRoles.length === memberRoles.length)
-      return ctx.message.addReaction("⛔").catch(null);
+    if (ctx.bot.settings.successRoles.length === memberRoles.length) {
+      ctx.message.addReaction("⛔").catch(() => {});
+      return;
+    }
 
     ctx.bot.emit("guildMemberAdd", ctx.guild, ctx.author);
   }
