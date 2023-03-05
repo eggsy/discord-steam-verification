@@ -3,6 +3,10 @@ import { Request, Response } from "express";
 import API from "@/util/api";
 import Bot from "@/util/bot";
 
+import ApiStrings from "@/strings/api";
+import BotStrings from "@/strings/bot";
+import WebsiteStrings from "@/strings/website";
+
 export class Master {
   api: API;
   bot: Bot;
@@ -15,7 +19,11 @@ export class Master {
       user: { name: string; id: string };
     }
   >;
-  strings: { bot: BotStrings; api: ApiStrings; web: WebsiteStrings };
+  strings: {
+    bot: typeof BotStrings;
+    api: typeof ApiStrings;
+    web: typeof WebsiteStrings;
+  };
 }
 
 /*
