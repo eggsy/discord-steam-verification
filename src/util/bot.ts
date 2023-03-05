@@ -2,7 +2,7 @@ import { Client, Member, Guild, TextChannel } from "eris";
 import { Command, Event, Master } from "@/structures";
 import { BotSettings } from "types/bot";
 import { Config } from "@/config";
-import { resolve } from "path";
+import { join } from "path";
 import BotStrings from "@/strings/bot";
 import consola from "consola";
 
@@ -56,10 +56,7 @@ export default class Bot extends Client {
       allowedMentions: {
         everyone: false,
       },
-      intents: [
-        "directMessages",
-        "guildMessages"
-      ]
+      intents: ["directMessages", "guildMessages", "guilds"],
     });
 
     this.master = master;
@@ -70,7 +67,7 @@ export default class Bot extends Client {
     this.settings.failureAction = config.failureAction;
     this.settings.logChannel.id = config.logChannel;
     this.settings.backup = config.backup;
-    this.token = config.token
+    this.token = config.token;
 
     this.strings = master.strings.bot;
 
@@ -95,12 +92,13 @@ export default class Bot extends Client {
 
   loadCommands() {
     try {
-      const files = readdirSync(resolve("./commands"));
+      const files = readdirSync(join(__dirname, "/commands"));
 
       files.forEach((name: any) => {
         if (name.endsWith(".map")) return;
 
-        const command: Command = new (require(resolve(
+        const command: Command = new (require(join(
+          __dirname,
           `./commands/${name}`
         )).default)();
 
@@ -116,12 +114,15 @@ export default class Bot extends Client {
   }
 
   loadEvents() {
-    const files = readdirSync(resolve("./events"));
+    const files = readdirSync(join(__dirname, "/events"));
 
     files.forEach((name: any) => {
       if (name.endsWith(".map")) return;
 
-      const event: Event = new (require(resolve(`./events/${name}`)).default)();
+      const event: Event = new (require(join(
+        __dirname,
+        `/events/${name}`
+      )).default)();
 
       this.on(event.name || name, (...keys: string[]) =>
         event.execute(...keys, this)
@@ -227,7 +228,8 @@ export default class Bot extends Client {
   }
 
   backupOrImport(backup: boolean = true, channel: TextChannel = null) {
-    const filePath = resolve(
+    const filePath = join(
+      __dirname,
       this.settings.backup.path && this.settings.backup.path.endsWith(".json")
         ? this.settings.backup.path.replace(
             /\{0\}/g,
