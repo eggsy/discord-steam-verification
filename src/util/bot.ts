@@ -3,6 +3,7 @@ import { Command, Event, Master } from "@/structures";
 import { BotSettings } from "types/bot";
 import { Config } from "@/config";
 import { resolve } from "path";
+import BotStrings from "@/strings/bot";
 import consola from "consola";
 
 import {
@@ -19,7 +20,7 @@ export default class Bot extends Client {
   token: string;
   master: Master;
   ready: boolean = false;
-  strings: BotStrings;
+  strings: typeof BotStrings;
   commands: Map<string, Command> = new Map();
   settings: BotSettings = {
     enabled: true,
