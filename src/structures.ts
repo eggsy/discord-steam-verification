@@ -1,5 +1,4 @@
 import { Params } from "types/bot";
-import { Request, Response } from "express";
 import API from "@/util/api";
 import Bot from "@/util/bot";
 
@@ -48,18 +47,4 @@ export enum failureAction {
   NONE,
   KICK,
   BAN,
-}
-
-/*
-  Structures for the API
-*/
-
-export abstract class Route {
-  abstract path: string;
-  method: string = "get";
-  abstract handler(
-    req: Request,
-    res: Response,
-    ...args: any
-  ): any | Promise<any>;
 }
