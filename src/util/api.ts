@@ -4,7 +4,7 @@ import { Route, Master } from "../structures";
 
 import path from "path";
 import consola from "consola";
-import exphbs from "express-handlebars";
+import { engine } from "express-handlebars";
 import steam from "steam-login";
 import session from "express-session";
 import bodyParser from "body-parser";
@@ -19,7 +19,7 @@ export default class API {
     this.port = port;
     this.master = master;
 
-    this.server.engine("handlebars", exphbs());
+    this.server.engine("handlebars", engine());
     this.server.set("view engine", "handlebars");
     this.server.use(bodyParser.urlencoded({ extended: false }));
     this.server.use(bodyParser.json());
