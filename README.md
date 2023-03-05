@@ -58,6 +58,10 @@ That's all, but please do not forget this is not the "best version" of what you 
 
 This bot requires [Node.JS](https://nodejs.org/en/download/), [TypeScript](https://www.npmjs.com/package/typescript), [Yarn](https://www.npmjs.com/package/yarn), a [Discord Bot Application](https://discord.com/developers/applications/), [Steam API Key](https://steamcommunity.com/dev/registerkey) and a Node.JS hosting service (required so you can run API and the bot somewhere) to work. Please make sure you have them all installed globally.
 
+💡 Make sure to enable "Message Content Intent" in your bot's application page in Discord Developer Portal.
+
+![image](https://i.imgur.com/Dk5BV9X.png)
+
 ### 📩 Installation
 
 Make sure you have all the required programs and modules installed before this step!
@@ -75,11 +79,6 @@ Make sure you have all the required programs and modules installed before this s
     - Start the compiled code: `pnpm start`
 
 You will now have your very own `discord-steam-verification` bot and API running! Invite your bot to your server and it'll start verifying new users!
-
-### 📄 TODO (maybe list)
-
-- [ ] A version/branch that uses a database to store data instead of memory or a local file.
-- [ ] A version/branch that uses Discord authentication as well as Steam authentication so users will have no chance to fake the system.
 
 ### 🐛 Bugs
 
