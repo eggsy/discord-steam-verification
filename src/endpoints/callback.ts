@@ -1,11 +1,6 @@
-import { Route } from "../structures";
-import { Response } from "express";
-import { RequestWithExtraInformation } from "types/express";
+import { Request, Response } from "express";
 
-export default class CallbackRoute extends Route {
-  path = "/callback";
-
-  handler(req: RequestWithExtraInformation, res: Response) {
-    res.redirect(req.session["redirectUri"] || "/");
-  }
-}
+export const path = "/callback";
+export const handler = (req: Request, res: Response) => {
+  res.redirect(req.session["redirectUri"] || "/");
+};
