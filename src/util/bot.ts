@@ -1,7 +1,7 @@
 import { Client, Member, Guild, TextChannel } from "eris";
-import { Command, Event, Master } from "../structures";
-import { BotSettings } from "../../@types/bot";
-import { Config } from "../config";
+import { Command, Event, Master } from "@/structures";
+import { BotSettings } from "types/bot";
+import { Config } from "@/config";
 import { resolve } from "path";
 import consola from "consola";
 
@@ -16,6 +16,7 @@ import {
 export default class Bot extends Client {
   name: string;
   prefix: string;
+  token: string;
   master: Master;
   ready: boolean = false;
   strings: BotStrings;
@@ -54,6 +55,10 @@ export default class Bot extends Client {
       allowedMentions: {
         everyone: false,
       },
+      intents: [
+        "directMessages",
+        "guildMessages"
+      ]
     });
 
     this.master = master;
@@ -64,6 +69,7 @@ export default class Bot extends Client {
     this.settings.failureAction = config.failureAction;
     this.settings.logChannel.id = config.logChannel;
     this.settings.backup = config.backup;
+    this.token = config.token
 
     this.strings = master.strings.bot;
 
