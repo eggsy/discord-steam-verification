@@ -2,6 +2,7 @@ import { defineConfig } from "tsup";
 import { config } from "dotenv";
 import { ChildProcess, spawn } from "child_process";
 import { cp } from "fs";
+import consola from "consola";
 
 config();
 
@@ -24,7 +25,9 @@ export default defineConfig({
       {
         recursive: true,
       },
-      console.error
+      (err) => {
+        if (err) consola.error(err);
+      }
     );
 
     if (process.env.NODE_ENV === "production") return;
