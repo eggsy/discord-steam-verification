@@ -1,5 +1,5 @@
 import { Event, Command } from "../structures";
-import { TextChannel, Guild, Message } from "eris";
+import { TextChannel, Guild, Message, Constants } from "eris";
 import Bot from "../util/bot";
 
 export default class MessageEvent extends Event {
@@ -24,8 +24,8 @@ export default class MessageEvent extends Event {
       if (cmd.requiredPerms) {
         let noPerm: number = 0;
 
-        cmd.requiredPerms.forEach((perm) => {
-          if (!message.member.permission.has(perm)) noPerm++;
+        cmd.requiredPerms.forEach((perm: keyof Constants["Permissions"]) => {
+          if (!message.member.permissions.has(perm)) noPerm++;
         });
 
         if (noPerm > 0) return message.addReaction("⛔");
