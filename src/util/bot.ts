@@ -175,7 +175,7 @@ export default class Bot extends Client {
           .replace(/\{1\}/g, guild.name)
           .replace(
             /\{2\}/g,
-            `${process.env.HOST}/verify/${guild.id}/${member.id}`
+            `<${process.env.HOST}/verify/${guild.id}/${member.id}>`
           )
       );
 
