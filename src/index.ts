@@ -11,7 +11,6 @@
   🛠 HAVE FUN!
 */
 
-import { config as loadEnv } from "dotenv";
 import { Master } from "./structures";
 import { Config } from "./config";
 import Bot from "./util/bot";
@@ -21,8 +20,6 @@ import API from "./util/api";
 import stringsBot from "./strings/bot";
 import stringsApi from "./strings/api";
 import stringsWeb from "./strings/website";
-
-loadEnv({ path: "../.env" });
 
 export default class Main extends Master {
   queue = new Map();
