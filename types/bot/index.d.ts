@@ -1,8 +1,8 @@
 import { Client, Guild, Member, Message, TextChannel } from "eris";
-import { failureAction } from "../../src/structures";
-import Bot from "../../src/util/bot";
+import { failureAction } from "@/structures";
+import Bot from "@/util/bot";
 
-interface Params {
+export interface Params {
   client: Client;
   args: string[];
   message: Message;
