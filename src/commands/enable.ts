@@ -1,5 +1,5 @@
-import { Params } from "../../@types/bot/index";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class EnableCommand extends Command {
   name = "enable";

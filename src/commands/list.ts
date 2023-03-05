@@ -1,5 +1,5 @@
-import { Params } from "../../@types/bot/index";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class ListCommand extends Command {
   name = "list";
@@ -11,9 +11,7 @@ export default class ListCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.bot.master.queue.size)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.list[
-          "NO_USERS_IN_VERIFICATION"
-        ]
+        ctx.bot.strings.errors.commands.list["NO_USERS_IN_VERIFICATION"]
       );
 
     const list: string[] = [];
@@ -28,16 +26,13 @@ export default class ListCommand extends Command {
         description: list.join(", "),
         fields: [
           {
-            name:
-              ctx.bot.strings.commands.list.embed.fields["TOTAL"]
-                .title,
+            name: ctx.bot.strings.commands.list.embed.fields["TOTAL"].title,
             value: String(ctx.bot.master.queue.size),
             inline: true,
           },
         ],
         footer: {
-          text:
-            ctx.bot.strings.commands.common.embed["NOT_AFILLIATED"],
+          text: ctx.bot.strings.commands.common.embed["NOT_AFILLIATED"],
           icon_url: ctx.bot.user.avatarURL,
         },
       },

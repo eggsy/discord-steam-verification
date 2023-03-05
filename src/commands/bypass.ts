@@ -1,5 +1,5 @@
-import { Command } from "../structures";
-import { Params } from "../../@types/bot/index";
+import { Command } from "@/structures";
+import { Params } from "types/bot";
 
 export default class BypassCommand extends Command {
   name = "bypass";
@@ -36,7 +36,7 @@ export default class BypassCommand extends Command {
         const role = ctx.guild.roles.get(ctx.bot.settings.successRoles[key]);
 
         try {
-          member.addRole(role.id);
+          await member.addRole(role.id);
         } catch (err) {
           notAdded.push(role.name);
         }

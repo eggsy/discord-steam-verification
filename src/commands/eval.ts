@@ -1,6 +1,6 @@
 import { inspect } from "util";
-import { Params } from "../../@types/bot";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class EvalCommand extends Command {
   name = "eval";
@@ -33,7 +33,7 @@ export default class EvalCommand extends Command {
       if ((result as any) instanceof Promise) result = await result;
 
       result = inspect(result, { depth: 0 }).substring(0, 1900);
-      result = result.replace(ctx.bot.token, "***");
+      result = result.replaceAll(ctx.bot.token, "***");
 
       return ctx.channel.createMessage(
         ctx.bot.strings.commands.eval["OUTPUT"].replace(

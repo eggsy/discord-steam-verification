@@ -1,7 +1,7 @@
-import { Params } from "../@types/bot";
+import { Params } from "types/bot";
 import { Request, Response } from "express";
-import API from "./util/api";
-import Bot from "./util/bot";
+import API from "@/util/api";
+import Bot from "@/util/bot";
 
 export class Master {
   api: API;

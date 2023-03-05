@@ -1,5 +1,5 @@
-import { Params } from "../../@types/bot/index";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class VerifyCommand extends Command {
   name = "verify";
@@ -12,9 +12,10 @@ export default class VerifyCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common[
-          "WRONG_USAGE"
-        ].replace(/\{0\}/g, this.usage)
+        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
+          /\{0\}/g,
+          this.usage
+        )
       );
 
     const member =
@@ -43,14 +44,13 @@ export default class VerifyCommand extends Command {
 
     if (!member.roles.length || (!notremoved.length && removed.length)) {
       ctx.bot.startVerification(ctx.guild, member);
-      ctx.channel.createMessage(
-        ctx.bot.strings.commands.verify["SUCCESS"]
-      );
+      ctx.channel.createMessage(ctx.bot.strings.commands.verify["SUCCESS"]);
     } else if (!removed.length && notremoved.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.verify[
-          "COULDNT_REMOVE_ROLES"
-        ].replace(/\{0\}/g, notremoved.map((r) => "`" + r + "`").join(", "))
+        ctx.bot.strings.errors.commands.verify["COULDNT_REMOVE_ROLES"].replace(
+          /\{0\}/g,
+          notremoved.map((r) => "`" + r + "`").join(", ")
+        )
       );
     else if (removed.length && notremoved.length)
       return ctx.channel.createMessage(

@@ -1,5 +1,5 @@
-import { Params } from "../../@types/bot/index";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class UnverifyCommand extends Command {
   name = "unverify";
@@ -11,9 +11,10 @@ export default class UnverifyCommand extends Command {
   execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common[
-          "WRONG_USAGE"
-        ].replace(/\{0\}/g, this.usage)
+        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
+          /\{0\}/g,
+          this.usage
+        )
       );
 
     const member =
@@ -50,9 +51,7 @@ export default class UnverifyCommand extends Command {
         member.removeRole(ctx.bot.settings.successRoles[key]);
       }
 
-      ctx.channel.createMessage(
-        ctx.bot.strings.commands.unverify["SUCCESS"]
-      );
+      ctx.channel.createMessage(ctx.bot.strings.commands.unverify["SUCCESS"]);
     }
   }
 }

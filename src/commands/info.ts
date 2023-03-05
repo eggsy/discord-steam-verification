@@ -1,6 +1,6 @@
 import { Embed } from "eris";
-import { Params } from "../../@types/bot/index";
-import { Command } from "../structures";
+import { Params } from "types/bot";
+import { Command } from "@/structures";
 
 export default class ImportCommand extends Command {
   name = "info";
