@@ -1,8 +1,7 @@
 import express, { Express, Router, Request, Response } from "express";
 import { readdirSync } from "fs";
-import { Route, Master } from "../structures";
-
-import path from "path";
+import { Master } from "@/structures";
+import { join } from "path";
 import consola from "consola";
 import { engine } from "express-handlebars";
 import steam from "steam-login";
@@ -21,6 +20,7 @@ export default class API {
 
     this.server.engine("handlebars", engine());
     this.server.set("view engine", "handlebars");
+    this.server.set("views", join(__dirname, "./views"));
     this.server.use(bodyParser.urlencoded({ extended: false }));
     this.server.use(bodyParser.json());
     this.server.use(
@@ -47,23 +47,23 @@ export default class API {
 
   loadEndpoints() {
     try {
-      const endpoints = readdirSync(path.resolve("./endpoints"));
+      const endpoints = readdirSync(join(__dirname, "/endpoints"));
 
-      endpoints.forEach((file: string) => {
+      endpoints.forEach(async (file: string) => {
         if (file.endsWith(".map")) return;
 
-        const route: Route = new (require(path.resolve(
-          `./endpoints/${file}`
-        )).default)();
+        const { method, path, handler } = await import(
+          join(__dirname, `/endpoints/${file}`)
+        );
 
-        if (route.path === "/login")
-          this.server.get(route.path, steam.authenticate(), route.handler);
-        else if (route.path === "/callback")
-          this.server.get(route.path, steam.verify(), route.handler);
+        if (path === "/login")
+          this.server.get(path, steam.authenticate(), handler);
+        else if (path === "/callback")
+          this.server.get(path, steam.verify(), handler);
         else
-          this.server[route.method](
-            route.path,
-            async (req: Request, res: Response) => route.handler(req, res, this)
+          this.server[method || "get"](
+            path,
+            async (req: Request, res: Response) => handler(req, res, this)
           );
       });
     } catch (err) {
