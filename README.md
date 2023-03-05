@@ -1,22 +1,10 @@
-## Discord Steam Verification
+# Discord Steam Verification
 
 Verify your Discord server members and check if they have specified app on their Steam library! Give them roles on successfull verification and punish them if they don't have it in their library!
 
 > 🚧 This bot has **power** to kick or ban your users if they can't verify themselves. Please use it on your own risk and make sure to run some tests before using it on your server!
 
 > Please make sure to read all of the README.md (this) file before starting to use the bot.
-
-### ⏬ Skip right to:
-
-- [Discord Steam Verification](#discord-steam-verification)
-  - [⏬ Skip right to:](#-skip-right-to)
-  - [🔥 Features](#-features)
-  - [❓ How does it work](#-how-does-it-work)
-  - [🛠 Requirements](#-requirements)
-  - [📩 Installation](#-installation)
-  - [📄 TODO (maybe list)](#-todo-maybe-list)
-  - [🐛 Bugs](#-bugs)
-  - [Sponsors](#sponsors)
 
 ### 🔥 Features
 
@@ -75,16 +63,16 @@ This bot requires [Node.JS](https://nodejs.org/en/download/), [TypeScript](https
 Make sure you have all the required programs and modules installed before this step!
 
 - Clone this repository: `git clone https://github.com/eggsydev/discord-steam-verification`
-- Install modules with `yarn`
+- Install modules with `pnpm`
   - `cd` to your clone folder.
-  - Type `yarn` in your terminal.
+  - Type `pnpm i` in your terminal.
 - Edit the `config.ts` file in `src/` directory as you wish.
 - Copy the content of `.env.example`, fill the fields and rename it to `.env` (all fields are explained in comments, **make sure to** put the right app ID).
 - Start the bot in **development** or **production** mode.
-  - For development, type this in your terminal: `yarn dev`
+  - For development, type this in your terminal: `pnpm dev`
   - For production, follow these steps:
-    - Compile the code with: `yarn compile` (compile with `yarn compile-linux` instead if you're on Linux/macOS)
-    - Start the compiled code: `yarn start`
+    - Compile the code with: `pnpm compile` (compile with `pnpm compile-linux` instead if you're on Linux/macOS)
+    - Start the compiled code: `pnpm start`
 
 You will now have your very own `discord-steam-verification` bot and API running! Invite your bot to your server and it'll start verifying new users!
 
