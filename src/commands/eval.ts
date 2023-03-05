@@ -13,9 +13,10 @@ export default class EvalCommand extends Command {
     if (!ctx.args.length)
       return ctx.channel
         .createMessage(
-          ctx.bot.strings.errors.commands.common[
-            "WRONG_USAGE"
-          ].replace(/\{0\}/g, this.usage)
+          ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
+            /\{0\}/g,
+            this.usage
+          )
         )
         .then((m) =>
           setTimeout(() => {
@@ -30,7 +31,7 @@ export default class EvalCommand extends Command {
 
     try {
       let result = eval(isAsync ? `(async()=>{${script}})();` : script);
-      if ((result as any) instanceof Promise) result = await result;
+      if (result instanceof Promise) result = await result;
 
       result = inspect(result, { depth: 0 }).substring(0, 1900);
       result = result.replaceAll(ctx.bot.token, "***");
