@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es2018",
     "module": "commonjs",
     "outDir": "dist",
@@ -7,11 +8,10 @@
     "esModuleInterop": true,
     "removeComments": true,
     "skipLibCheck": true,
-    "typeRoots": [
-      "@types"
-    ],
+    "typeRoots": ["types"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
