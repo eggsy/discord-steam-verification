@@ -6,10 +6,17 @@ export default class VerificationPassedEvent extends Event {
   name = "verificationPassed";
 
   async execute(id: string, bot: Bot) {
-    if (!bot.master.queue.has(id)) return;
+    const [serverId, userId] = id.split("/");
 
-    const server = bot.guilds.get(id.split("/")[0]),
-      user = server.members.get(id.split("/")[1]);
+    if (!bot.master.queue.has(`${serverId}/${userId}`)) return;
+
+    const server = bot.guilds.get(serverId),
+      user = await server
+        .fetchMembers({
+          presences: false,
+          userIDs: [userId],
+        })
+        .then((u) => u[0]);
 
     for (let key in bot.settings.successRoles) {
       try {
@@ -47,5 +54,7 @@ export default class VerificationPassedEvent extends Event {
     } catch (err) {
       consola.error(err);
     }
+
+    server.members.clear();
   }
 }

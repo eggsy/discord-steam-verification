@@ -6,18 +6,24 @@ export default class VerificationFailedEvent extends Event {
   name = "verificationFailed";
 
   async execute(id: string, bot: Bot) {
-    if (!bot.master.queue.has(id.split("/").slice(0, 2).join("/"))) return;
+    const [serverId, userId, usedAcc] = id.split("/");
 
-    const server = bot.guilds.get(id.split("/")[0]),
-      user = server.members.get(id.split("/")[1]),
-      usedAcc = id.split("/")[2];
+    if (!bot.master.queue.has(`${serverId}/${userId}`)) return;
+
+    const server = bot.guilds.get(serverId),
+      user = await server
+        .fetchMembers({
+          presences: false,
+          userIDs: [userId],
+        })
+        .then((u) => u[0]);
 
     if (!usedAcc)
-      consola.error(
+      consola.warn(
         `Verification failed for user (app isn't found on their library): ${user.username}`
       );
     else
-      consola.error(
+      consola.warn(
         `User ${user.username} tried to use the same Steam account that has been used before.`
       );
 
@@ -45,36 +51,40 @@ export default class VerificationFailedEvent extends Event {
           ? bot.master.strings.bot.events.verificationFailed[
               "FAILED_LOG_MESSAGE"
             ]
-              .replace(/\{0\}/g, user.mention)
-              .replace(/\{1\}/g, user.username)
-              .replace(/\{2\}/g, user.id)
+              .replaceAll("{0}", user.mention)
+              .replaceAll("{1}", user.username)
+              .replaceAll("{2}", user.id)
           : bot.master.strings.bot.events.verificationFailed[
               "FAILED_SAME_ACCOUNT_LOG"
             ]
-              .replace(/\{0\}/g, user.mention)
-              .replace(/\{1\}/g, user.username)
-              .replace(/\{2\}/g, user.id)
+              .replaceAll(/\{0\}/g, user.mention)
+              .replaceAll(/\{1\}/g, user.username)
+              .replaceAll(/\{2\}/g, user.id)
       );
 
       switch (bot.settings.failureAction) {
         case "KICK":
-          user.kick(
-            bot.master.strings.bot.events.verificationFailed[
-              "AUDIT_LOG_REASON_KICK"
-            ]
-          );
+          user
+            .kick(
+              bot.master.strings.bot.events.verificationFailed[
+                "AUDIT_LOG_REASON_KICK"
+              ]
+            )
+            .catch(() => {});
           break;
         case "BAN":
-          user.ban(
-            null,
-            bot.master.strings.bot.events.verificationFailed[
-              "AUDIT_LOG_REASON_BAN"
-            ]
-          );
-          break;
-        default:
+          user
+            .ban(
+              null,
+              bot.master.strings.bot.events.verificationFailed[
+                "AUDIT_LOG_REASON_BAN"
+              ]
+            )
+            .catch(() => {});
           break;
       }
     }
+
+    server.members.clear();
   }
 }
