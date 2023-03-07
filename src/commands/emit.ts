@@ -9,6 +9,7 @@ export default class EmitCommand extends Command {
 
   execute(ctx: Params) {
     const memberRoles: string[] = [];
+
     if (ctx.author.roles && ctx.author.roles.length)
       for (const id of ctx.bot.settings.successRoles) {
         if (ctx.author.roles.includes(id)) memberRoles.push(id);
