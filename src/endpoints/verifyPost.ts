@@ -3,6 +3,7 @@ import get from "axios";
 import consola from "consola";
 import { Response } from "express";
 import { RequestWithExtraInformation } from "types/express";
+import config from "@/config";
 
 export const path = "/verify";
 export const method = "post";
@@ -67,11 +68,16 @@ export const handler = async (
           ],
       });
     else if (data.response.games.length) {
-      const userHasApp = data.response.games.find(
-        (g: { appid: number }) => g.appid === Number(process.env.APP_ID)
+      const appIds =
+        typeof config.appId === "string" ? [config.appId] : config.appId;
+      const userHasApps = appIds.every(
+        (appId) =>
+          data.response.games.indexOf(
+            (g: { appid: number }) => g.appid === Number(appId)
+          ) !== -1
       );
 
-      if (!userHasApp || !Object.keys(userHasApp).length) {
+      if (!userHasApps) {
         api.master.bot.emit(
           "verificationFailed",
           `${req.body.serverId}/${req.body.userId}`
