@@ -1,7 +1,7 @@
 import { Client, Member, Guild, TextChannel } from "eris";
 import { Command, Event, Master } from "@/structures";
 import { BotSettings } from "types/bot";
-import { Config } from "@/config";
+import config from "@/config";
 import { join } from "path";
 import BotStrings from "@/strings/bot";
 import consola from "consola";
@@ -35,8 +35,8 @@ export default class Bot extends Client {
     },
   };
 
-  constructor(config: Config, master: Master) {
-    super(config.token, {
+  constructor(master: Master) {
+    super(process.env.BOT_TOKEN, {
       maxReconnectAttempts: 3,
       disableEvents: {
         CHANNEL_CREATE: true,
@@ -67,15 +67,12 @@ export default class Bot extends Client {
     this.settings.failureAction = config.failureAction;
     this.settings.logChannel.id = config.logChannel;
     this.settings.backup = config.backup;
-    this.token = config.token;
+    this.token = process.env.BOT_TOKEN;
 
     this.strings = master.strings.bot;
 
     if (this.settings.backup.auto && this.settings.backup.interval)
-      setInterval(
-        () => this.backupOrImport(),
-        1000 * this.settings.backup.interval
-      );
+      setInterval(() => this.backup(), 1000 * this.settings.backup.interval);
 
     this.loadCommands();
     this.loadEvents();
@@ -86,7 +83,7 @@ export default class Bot extends Client {
   async run() {
     consola.info("Bot is starting...");
 
-    if (this.settings.backup.auto) this.backupOrImport(false);
+    if (this.settings.backup.auto) this.import();
     this.connect();
   }
 
@@ -227,7 +224,7 @@ export default class Bot extends Client {
     return true;
   }
 
-  backupOrImport(backup: boolean = true, channel: TextChannel = null) {
+  backup(channel: TextChannel = null) {
     const filePath = join(
       __dirname,
       this.settings.backup.path && this.settings.backup.path.endsWith(".json")
@@ -238,100 +235,110 @@ export default class Bot extends Client {
         : `../DSV_backup_${this.name.split(" ").join("_")}.json`
     );
 
-    if (backup) {
-      if (!this.master.queue.size && !this.master.usedAccounts.length)
+    if (!this.master.queue.size && !this.master.usedAccounts.length)
+      return channel
+        ? channel.createMessage(
+            this.master.strings.bot.errors.commands.export["NOTHING_TO_EXPORT"]
+          )
+        : false;
+
+    try {
+      if (existsSync(filePath)) unlinkSync(filePath);
+
+      const dataObj = {
+        queue: [],
+        usedAccounts: this.master.usedAccounts || [],
+      };
+
+      this.master.queue.forEach((r) => dataObj.queue.push(r));
+
+      consola.info(`Creating a backup to: ${filePath}`);
+
+      writeFileSync(filePath, JSON.stringify(dataObj));
+
+      if (channel)
+        return channel.createMessage(
+          this.master.strings.bot.commands.export["SUCCESS"].replace(
+            /\{0\}/g,
+            filePath
+          )
+        );
+    } catch (err) {
+      if (channel)
+        return channel.createMessage(
+          this.master.strings.bot.errors.commands.export[
+            "PERMISSION_ERROR"
+          ].replace(/\{0\}/g, filePath)
+        );
+      else return consola.error(`Coulndn't create a backup to: ${filePath}`);
+    }
+  }
+
+  import(channel: TextChannel = null) {
+    const filePath = join(
+      __dirname,
+      this.settings.backup.path && this.settings.backup.path.endsWith(".json")
+        ? this.settings.backup.path.replace(
+            /\{0\}/g,
+            this.name.split(" ").join("_")
+          )
+        : `../DSV_backup_${this.name.split(" ").join("_")}.json`
+    );
+
+    try {
+      if (!existsSync(filePath))
         return channel
           ? channel.createMessage(
-              this.master.strings.bot.errors.commands.export[
-                "NOTHING_TO_EXPORT"
+              this.master.strings.bot.errors.commands.import[
+                "NO_BACKUP_FILE"
+              ].replace(/\{0\}/g, filePath)
+            )
+          : false;
+
+      const file = JSON.parse(readFileSync(filePath, "utf-8"));
+
+      const dataObj = {
+        queue: file.queue,
+        usedAccounts: file.usedAccounts,
+      };
+
+      if (!dataObj.queue.length && !dataObj.usedAccounts.length)
+        return channel
+          ? channel.createMessage(
+              this.master.strings.bot.errors.commands.import[
+                "NOTHING_TO_IMPORT"
               ]
             )
           : false;
 
-      try {
-        if (existsSync(filePath)) unlinkSync(filePath);
+      dataObj.queue.forEach((r) =>
+        this.master.queue.set(`${r.server.id}/${r.user.id}`, r)
+      );
+      this.master.usedAccounts = dataObj.usedAccounts;
 
-        const dataObj = {
-          queue: [],
-          usedAccounts: this.master.usedAccounts || [],
-        };
-
-        this.master.queue.forEach((r) => dataObj.queue.push(r));
-
-        writeFileSync(filePath, JSON.stringify(dataObj));
-
-        if (channel)
-          return channel.createMessage(
-            this.master.strings.bot.commands.export["SUCCESS"].replace(
-              /\{0\}/g,
-              filePath
-            )
-          );
-      } catch (err) {
-        if (channel)
-          return channel.createMessage(
-            this.master.strings.bot.errors.commands.export[
-              "PERMISSION_ERROR"
-            ].replace(/\{0\}/g, filePath)
-          );
-        else return consola.error(`Coulndn't create a backup to: ${filePath}`);
-      }
-    } else {
-      try {
-        if (!existsSync(filePath))
-          return channel
-            ? channel.createMessage(
-                this.master.strings.bot.errors.commands.import[
-                  "NO_BACKUP_FILE"
-                ].replace(/\{0\}/g, filePath)
-              )
-            : false;
-
-        const file = JSON.parse(readFileSync(filePath, "utf-8"));
-
-        const dataObj = {
-          queue: file.queue,
-          usedAccounts: file.usedAccounts,
-        };
-
-        if (!dataObj.queue.length && !dataObj.usedAccounts.length)
-          return channel
-            ? channel.createMessage(
-                this.master.strings.bot.errors.commands.import[
-                  "NOTHING_TO_IMPORT"
-                ]
-              )
-            : false;
-
-        dataObj.queue.forEach((r) =>
-          this.master.queue.set(`${r.server.id}/${r.user.id}`, r)
+      if (channel)
+        return channel.createMessage(
+          this.master.strings.bot.commands.import["SUCCESS"]
+            .replace(/\{0\}/g, String(this.master.queue.size))
+            .replace(/\{1\}/g, String(this.master.usedAccounts.length))
         );
-        this.master.usedAccounts = dataObj.usedAccounts;
-
-        if (channel)
-          return channel.createMessage(
-            this.master.strings.bot.commands.import["SUCCESS"]
-              .replace(/\{0\}/g, String(this.master.queue.size))
-              .replace(/\{1\}/g, String(this.master.usedAccounts.length))
-          );
-      } catch (err) {
-        if (channel)
-          return channel.createMessage(
-            this.master.strings.bot.errors.commands.import[
-              "PERMISSION_ERROR"
-            ].replace(/\{0\}/g, filePath)
-          );
-        else return consola.error(`Couldn't read the backup from: ${filePath}`);
-      }
+    } catch (err) {
+      if (channel)
+        return channel.createMessage(
+          this.master.strings.bot.errors.commands.import[
+            "PERMISSION_ERROR"
+          ].replace(/\{0\}/g, filePath)
+        );
+      else return consola.error(`Couldn't read the backup from: ${filePath}`);
     }
   }
 
   async reload(conn: boolean = true) {
     // Backup if auto backup is enabled
-    this.settings.backup.auto ? this.backupOrImport() : false;
+    if (this.settings.backup.auto) this.backup();
 
     this.disconnect({ reconnect: conn });
     this.commands.clear();
-    await this.run();
+    this.run();
   }
 }
