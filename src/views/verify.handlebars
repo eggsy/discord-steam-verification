@@ -1,4 +1,6 @@
-<h1>{{ strings.sections.verification.VERIFYING_USER_TITLE }}</h1>
+<img src="https://i.imgur.com/0Cd9MWW.png" class="mx-auto h-24 w-24" alt="DSV Logo" />
+
+<h1 class="text-center text-2xl font-bold mt-8">{{ strings.sections.verification.VERIFYING_USER_TITLE }}</h1>
 <ul>
   <li>
     <div>{{ strings.sections.verification.VERIFICATION_SERVER }}:</div>
@@ -16,7 +18,7 @@
   </li>
 </ul>
 
-<h1>{{ strings.sections.steam.STEAM_DETAILS_TITLE }}</h1>
+<h1 class="text-center text-2xl font-bold mt-12">{{ strings.sections.steam.STEAM_DETAILS_TITLE }}</h1>
 <ul>
   <li>
     <div>{{ strings.sections.steam.USERNAME }}:</div>
@@ -27,28 +29,33 @@
     <div>{{ user.steamid }}</div>
   </li>
   <li>
-    <div>{{ strings.sections.steam.PROFILE_URL }}:</div>
-    <div><a href="{{ user.profile }}" target="_blank">{{ strings.sections.steam.CLICK_HERE_BTN }}</a></div>
+    <div>Profile URL:</div>
+    <div><a href="{{ user.profile }}" target="_blank">Click here</a></div>
   </li>
 </ul>
 
-<div class="buttons">
-  <button class="yes">{{ strings.sections.buttons.YES }}</button>
-  <button class="no">{{ strings.sections.buttons.NO }}</button>
+<div class="flex flex-col mt-10 items-center justify-center gap-x-4 gap-y-2 sm:flex-row">
+  <button id="yes" class="bg-green-600 transition-colors hover:bg-green-700 w-full px-6 py-1.5 rounded-lg">{{
+    strings.sections.buttons.YES }}</button>
+  <button id="no" class="bg-red-600 transition-colors hover:bg-red-700 w-full rounded-lg px-6 py-1.5">{{
+    strings.sections.buttons.NO }}</button>
 </div>
 
 <script>
   // Getting buttons from the document;
-  const btnYes = document.querySelector(".buttons .yes");
-  const btnNo = document.querySelector(".buttons .no");
+  const btnYes = document.querySelector("button#yes");
+  const btnNo = document.querySelector("button#no");
 
   // Adding @click listeners so we could get a signal when user clicks one;
-  btnYes.addEventListener("click", async () => {
+  btnYes.onclick = async () => {
     try {
-      const { data } = await axios.post(`/verify`, {
-        userId: "{{ verification.user.id }}",
-        serverId: "{{ verification.server.id }}",
-        steamId: "{{ user.steamid }}"
+      const { data } = await fetch(`/verify`, {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "{{ verification.user.id }}",
+          serverId: "{{ verification.server.id }}",
+          steamId: "{{ user.steamid }}"
+        })
       })
 
       if (!data || data.error) {
@@ -58,6 +65,7 @@
         alert("{{ strings.SUCCESS_MESSAGE }}");
 
         // We can't close the window but we can make it disappear ¯\_(ツ)_/¯
+        window.close();
         window.open("about:blank", "_self");
       }
     } catch (err) {
@@ -65,10 +73,13 @@
       if (!err.response || !err.response.data || !err.response.data.message) return;
       alert(err.response.data.message);
     }
-  });
+  };
 
-  btnNo.addEventListener("click", () => {
+  btnNo.onclick = () => {
     const warning = confirm("{{ strings.CLOSE_PAGE_MESSAGE }}");
-    if (warning) window.open("about:blank", "_self");
-  });
+    if (warning) {
+      window.close();
+      window.open("about:blank", "_self");
+    };
+  };
 </script>

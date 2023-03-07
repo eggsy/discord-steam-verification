@@ -1,99 +1,48 @@
-<!DOCTYPE html>
 <html lang="en">
+
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Discord Steam Verification</title>
+    <link
+      rel="icon"
+      href="https://i.imgur.com/7c7AKoy.png"
+      type="image/x-icon"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-      html, body {
-        box-sizing: 0;
-        background-color: #0a0e14;
-        color: whitesmoke;
-        scroll: auto;
-        scroll-behavior: smooth;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    <style type="text/tailwindcss">
+      body {
+        background-color: #313338;
+        color: #fff;
       }
 
-      .container {
-        position: absolute;
-        min-width: 500px;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
+      ul {
+        @apply mt-4;
       }
 
-      .container code {
-        background-color: #f5f5f5;
-        border-radius: 4px;
-        color: black;
-        padding: .25em .5em;
+      li {
+        @apply flex justify-between gap-6;
       }
 
-      .container a {
-        color: rgba(0, 155, 255, 1);
-        transition: color 0.2s ease-in-out;
-        text-decoration: none;
+      li div:first-child {
+        @apply text-white/80 font-medium border-b border-white/10;
       }
 
-      .container a:hover {
-        color: rgba(0, 155, 255, 0.75);
+      li div:nth-child(2) {
+        @apply text-white/50;
       }
 
-      .container ul, .container li {
-        list-style: none;
-        padding: 0;
-      }
-
-      .container ul li:not(:last-child) {
-        margin-bottom: .5em;
-      }
-
-      .container ul li {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .container .buttons {
-        display: flex;
-      }
-
-      .container .buttons button:not(:last-child) {
-        margin-right: .25em;
-      }
-
-      .container .buttons .yes, .container .buttons .no {
-        transition: background-color 0.2s ease-in-out;
-        border: 0;
-        padding: .5em 1.5em;
-        font-size: large;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      .container .buttons .yes {
-        background-color: rgba(0, 255, 255, 1);
-      }
-
-      .container .buttons .yes:hover {
-        background-color: rgba(0, 255, 255, 0.75);
-      }
-
-      .container .buttons .no {
-        background-color: rgba(200, 0, 0, 1);
-        color: whitesmoke;
-      }
-
-      .container .buttons .no:hover {
-        background-color: rgba(200, 0, 0, 0.75);
+      li code {
+        @apply text-sm;
       }
     </style>
   </head>
 
   <body>
-    <div class="container">
-      {{{ body }}}
+    <div class="container mx-auto px-8 md:px-0 py-10 md:w-5/12">
+      {{{body}}}
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </body>
+
 </html>
