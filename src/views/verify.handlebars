@@ -49,24 +49,24 @@
   // Adding @click listeners so we could get a signal when user clicks one;
   btnYes.onclick = async () => {
     try {
-      const { data } = await fetch(`/verify`, {
+      const data = await fetch(`/verify`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           userId: "{{ verification.user.id }}",
           serverId: "{{ verification.server.id }}",
           steamId: "{{ user.steamid }}"
         })
-      })
+      }).then(res => res.json())
 
       if (!data || data.error) {
         console.error(data);
-        return alert(data.message)
+        alert(data.message)
       } else if (!data.error && data.verified) {
         alert("{{ strings.SUCCESS_MESSAGE }}");
-
-        // We can't close the window but we can make it disappear ¯\_(ツ)_/¯
-        window.close();
-        window.open("about:blank", "_self");
+        window.open("about:blank", "_self").close();
       }
     } catch (err) {
       console.error(err);
@@ -78,8 +78,7 @@
   btnNo.onclick = () => {
     const warning = confirm("{{ strings.CLOSE_PAGE_MESSAGE }}");
     if (warning) {
-      window.close();
-      window.open("about:blank", "_self");
+      window.open("about:blank", "_self").close();
     };
   };
 </script>
