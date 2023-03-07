@@ -53,7 +53,7 @@ export default class API {
         if (file.endsWith(".map")) return;
 
         const { method, path, handler } = await import(
-          join(__dirname, `/endpoints/${file}`)
+          join("file://", __dirname, `/endpoints/${file}`)
         );
 
         if (path === "/login")
