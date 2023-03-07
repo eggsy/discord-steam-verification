@@ -42,9 +42,3 @@ export abstract class Event {
   name?: string;
   abstract execute(...args: any): any | Promise<any>;
 }
-
-export enum failureAction {
-  NONE,
-  KICK,
-  BAN,
-}
