@@ -1,7 +1,7 @@
 export type FailureAction = "NONE" | "KICK" | "BAN";
 
 interface Config {
-  appId: string | string[];
+  appId: string | string[] | number | number[];
   name: string;
   prefix: string;
   roles: string[];
