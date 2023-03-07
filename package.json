@@ -4,7 +4,7 @@
   "description": "Verify your Discord users on first join to your server and check if they have a specific app/game on their Steam library!",
   "main": "index.js",
   "scripts": {
-    "dev": "tsup",
+    "dev": "tsup --watch",
     "build": "cross-env NODE_ENV=production tsup",
     "start": "cd dist && node index"
   },
