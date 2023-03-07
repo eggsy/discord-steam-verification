@@ -7,6 +7,7 @@ import config from "@/config";
 
 export const path = "/verify";
 export const method = "post";
+
 export const handler = async (
   req: RequestWithExtraInformation,
   res: Response,
@@ -16,6 +17,7 @@ export const handler = async (
     req.session[
       "redirectUri"
     ] = `/verify/${req.body.serverId}/${req.body.userId}`;
+
     return res.redirect("/login");
   } else if (
     !req.body ||
@@ -68,16 +70,19 @@ export const handler = async (
           ],
       });
     else if (data.response.games.length) {
+      const notFound = [];
       const appIds =
-        typeof config.appId === "string" ? [config.appId] : config.appId;
-      const userHasApps = appIds.every(
-        (appId) =>
-          data.response.games.indexOf(
-            (g: { appid: number }) => g.appid === Number(appId)
-          ) !== -1
-      );
+        typeof config.appId === "object" ? config.appId : [config.appId];
 
-      if (!userHasApps) {
+      for (const appId of appIds) {
+        const game = data.response.games.find(
+          (g: { appid: number }) => g.appid === Number(appId)
+        );
+
+        if (!game) notFound.push(appId);
+      }
+
+      if (notFound.length > 0) {
         api.master.bot.emit(
           "verificationFailed",
           `${req.body.serverId}/${req.body.userId}`
@@ -85,9 +90,11 @@ export const handler = async (
 
         api.master.queue.delete(`${req.body.serverId}/${req.body.userId}`);
 
-        return res.status(200).json({
+        return res.status(400).json({
           error: true,
-          message: api.master.strings.api.endpoints.verifyPost["APP_NOT_FOUND"],
+          message: api.master.strings.api.endpoints.verifyPost[
+            "APP_NOT_FOUND"
+          ].replaceAll("{0}", notFound.join(", ")),
         });
       } else {
         api.master.usedAccounts.push(`${req.body.userId}/${req.body.steamId}`);
@@ -97,14 +104,16 @@ export const handler = async (
           `${req.body.serverId}/${req.body.userId}`
         );
         api.master.queue.delete(`${req.body.serverId}/${req.body.userId}`);
-        res
+
+        return res
           .status(200)
           .json({ error: false, verified: true, message: "Success." });
       }
     }
   } catch (err) {
     consola.error(err);
-    res.status(500).json({
+
+    return res.status(500).json({
       error: true,
       message: api.master.strings.api.endpoints.verifyPost["STEAM_API_ERROR"],
     });
