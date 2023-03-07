@@ -1,6 +1,6 @@
-import API from "../util/api";
 import get from "axios";
 import consola from "consola";
+import API from "@/util/api";
 import { Response } from "express";
 import { RequestWithExtraInformation } from "types/express";
 import config from "@/config";
