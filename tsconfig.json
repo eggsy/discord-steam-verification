@@ -4,7 +4,6 @@
     "target": "es2018",
     "module": "commonjs",
     "outDir": "dist",
-    "sourceMap": true,
     "esModuleInterop": true,
     "removeComments": true,
     "skipLibCheck": true,
