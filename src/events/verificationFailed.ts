@@ -8,8 +8,8 @@ export default class VerificationFailedEvent extends Event {
   async execute(id: string, bot: Bot) {
     if (!bot.master.queue.has(id.split("/").slice(0, 2).join("/"))) return;
 
-    const server = await bot.guilds.get(id.split("/")[0]),
-      user = await server.members.get(id.split("/")[1]),
+    const server = bot.guilds.get(id.split("/")[0]),
+      user = server.members.get(id.split("/")[1]),
       usedAcc = id.split("/")[2];
 
     if (!usedAcc)
@@ -22,19 +22,19 @@ export default class VerificationFailedEvent extends Event {
       );
 
     try {
-      if (bot.settings.failureAction !== 0) {
-        const dmChannel = await user.user.getDMChannel();
-        bot.createMessage(
-          dmChannel.id,
-          !usedAcc
-            ? bot.master.strings.bot.events.verificationFailed[
-                "FAILED_PRIVATE_MESSAGE"
-              ]
-            : bot.master.strings.bot.events.verificationFailed[
-                "FAILED_PM_SAME_ACCOUNT"
-              ]
-        );
-      }
+      if (bot.settings.failureAction === "NONE") return;
+
+      const dmChannel = await user.user.getDMChannel();
+      bot.createMessage(
+        dmChannel.id,
+        !usedAcc
+          ? bot.master.strings.bot.events.verificationFailed[
+              "FAILED_PRIVATE_MESSAGE"
+            ]
+          : bot.master.strings.bot.events.verificationFailed[
+              "FAILED_PM_SAME_ACCOUNT"
+            ]
+      );
     } catch (err) {
       consola.error("Couldn't DM to the user.");
     }
@@ -57,14 +57,14 @@ export default class VerificationFailedEvent extends Event {
       );
 
       switch (bot.settings.failureAction) {
-        case 1:
+        case "KICK":
           user.kick(
             bot.master.strings.bot.events.verificationFailed[
               "AUDIT_LOG_REASON_KICK"
             ]
           );
           break;
-        case 2:
+        case "BAN":
           user.ban(
             null,
             bot.master.strings.bot.events.verificationFailed[
