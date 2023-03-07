@@ -1,5 +1,5 @@
 import { Client, Guild, Member, Message, TextChannel } from "eris";
-import { failureAction } from "@/structures";
+import { FailureAction } from "types/config";
 import Bot from "@/util/bot";
 
 export interface Params {
@@ -16,7 +16,7 @@ interface BotSettings {
   enabled: boolean;
   servers: string[];
   successRoles: string[];
-  failureAction: failureAction;
+  failureAction: FailureAction;
   logChannel?: {
     id: string;
     channel: TextChannel;
