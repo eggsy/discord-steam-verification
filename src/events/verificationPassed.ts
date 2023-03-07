@@ -1,6 +1,6 @@
-import { Event } from "../structures";
+import { Event } from "@/structures";
 import consola from "consola";
-import Bot from "../util/bot";
+import Bot from "@/util/bot";
 
 export default class VerificationPassedEvent extends Event {
   name = "verificationPassed";

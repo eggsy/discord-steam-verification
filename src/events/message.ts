@@ -1,6 +1,6 @@
-import { Event, Command } from "../structures";
+import { Event, Command } from "@/structures";
 import { TextChannel, Guild, Message, Constants } from "eris";
-import Bot from "../util/bot";
+import Bot from "@/util/bot";
 
 export default class MessageEvent extends Event {
   name = "messageCreate";

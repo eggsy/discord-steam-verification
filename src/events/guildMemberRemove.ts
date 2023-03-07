@@ -1,6 +1,6 @@
-import { Event } from "../structures";
+import { Event } from "@/structures";
 import { Member, Guild } from "eris";
-import Bot from "../util/bot";
+import Bot from "@/util/bot";
 
 export default class MemberLeaveEvent extends Event {
   name = "guildMemberRemove";
