@@ -9,6 +9,7 @@ Verify your Discord server members and check if they have specified app on their
 ### 🔥 Features
 
 - [x] Steam authentication; users will be asked to login to their Steam account to check their library.
+- [x] [`NEW`]((/#) Multiple Steam APP verification: You can check for more than one app in user's library!
 - [x] Everything is customizable!
   - Fully customizable strings; access to string files easily and **translate** the entire bot, API and website to your language!
   - **Multiple roles** that will be given to user on successfull login!
@@ -16,19 +17,6 @@ Verify your Discord server members and check if they have specified app on their
 - [x] Backups! **Automatic** or not! Set it as you wish and leave the rest to the bot. Bot will read your settings and it'll back up the queue and Steam ID array so you won't lose your stuff when you restart your bot! _Keep in mind you'll have to use the import command to import the backup file after every first start to load your backup_.
 - [x] Able to store Steam IDs in an array so it won't let users use the same Steam account for different Discord accounts.
 - [x] API and website ready for production! Specially designed API, multiple endpoints, Steam authentication and simple website UI.
-- [x] Huge list of commands! You get `bypass`, `emit`, `isverified`, `list`, `verify` and `unverify` commands built-in as well as usual commands such as `eval` and `help`!
-  - `bypass`: Manually skip the verification process for someone!
-  - `disable`: Disable the bot, this will stop verification process' on new member join and **clear the verification queue**.
-  - `emit` or `verifyself`: This will start the verification for the message author, **don't forget** if a user has all of the success roles, they won't be able to use this command unless you remove their roles or use the `unverify` command.
-  - `enable`: Enables the bot and starts verification process for every new user.
-  - `eval`: Evaluates a JavaScript code. Only those with higher possible permission (Administrator) is able to use this command.
-  - `export`: Manually exports/backs-up the data on memory to a local file so you can import it later.
-  - `help`: List of commands and their explanations, more explenation if a command name included after the command.
-  - `import`: Imports the data in the backup file to memory, so you can have your items back!
-  - `isverified`: Check if a user has all the success roles that is specified in your config.
-  - `list`: Lists all users waiting in the queue for verification.
-  - `unverify`: Removes all the success roles from user.
-  - `verify`: Removes all the success roles and starts the verification process for specified user.
 
 ### ❓ How does it work
 
@@ -70,7 +58,7 @@ Make sure you have all the required programs and modules installed before this s
 - Install modules with `pnpm`
   - `cd` to your clone folder.
   - Type `pnpm i` in your terminal.
-- Edit the `config.ts` file in `src/` directory as you wish.
+- Edit the `config.example.ts` file in `src/` directory as you wish. Rename the file to `config.ts` after you're finished.
 - Copy the content of `.env.example`, fill the fields and rename it to `.env` (all fields are explained in comments, **make sure to** put the right app ID).
 - Start the bot in **development** or **production** mode.
   - For development, type this in your terminal: `pnpm dev`
@@ -82,7 +70,7 @@ You will now have your very own `discord-steam-verification` bot and API running
 
 ### 🐛 Bugs
 
-Please report!
+Please create an [issue](/issues)!
 
 ### 💖 Sponsors
 
