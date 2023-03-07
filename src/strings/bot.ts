@@ -165,17 +165,17 @@ export default {
   events: {
     verificationFailed: {
       FAILED_PRIVATE_MESSAGE:
-        ":name_badge: You don't have the required app in your Steam library. You have failed verification and bot will take action according to the server's settings.",
+        ":name_badge: You don't have the required app(s) in your Steam library. You have failed verification and bot will take action according to the server's settings.",
       FAILED_PM_SAME_ACCOUNT:
         ":name_badge: You have tried to use a Steam account that has been used by someone else before. Bot will take action according to the server's settings.",
       FAILED_LOG_MESSAGE:
-        ":name_badge: User {0} (`{1}`/`{2}`) doesn't have the app/game in their library!",
+        ":name_badge: User {0} (`{1}`/`{2}`) doesn't have the required items in their Steam library!",
       FAILED_SAME_ACCOUNT_LOG:
         ":name_badge: User {0} (`{1}`/`{2}`) tried to use the same Steam account as someone else to verify themselves!",
       AUDIT_LOG_REASON_KICK:
-        "User has been kicked for not having app in their Steam library.",
+        "User has been kicked for not having app(s) in their Steam library.",
       AUDIT_LOG_REASON_BAN:
-        "User has been banned for not having required app in their Steam library",
+        "User has been banned for not having required app(s) in their Steam library",
     },
     verificationPassed: {
       SUCCESS_PRIVATE_MESSAGE:

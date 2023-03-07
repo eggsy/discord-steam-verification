@@ -13,7 +13,7 @@ export default {
         "Missing fields, make sure you have 'userId', 'serverId' and 'steamId' sent in the request body.",
       NO_GAMES_OR_PRIVATE_PROFILE:
         "Couldn't fetch anything from Steam API. Please make sure your profile is set to public and people can see your game details, and then try again.",
-      APP_NOT_FOUND: "User doesn't have the app in their library.",
+      APP_NOT_FOUND: "User doesn't have the following app(s): {0}",
       STEAM_API_ERROR:
         "Something happened while sending the request to the Steam API. Please check your console and try again later.",
     },
