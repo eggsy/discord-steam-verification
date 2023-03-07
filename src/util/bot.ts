@@ -26,13 +26,7 @@ export default class Bot extends Client {
     enabled: true,
     servers: [],
     successRoles: [],
-    failureAction: 0,
-    logChannel: { id: undefined, channel: null },
-    backup: {
-      auto: false,
-      interval: 600,
-      path: "../DSV_Backup_{0}.json",
-    },
+    failureAction: "NONE",
   };
 
   constructor(master: Master) {
@@ -65,7 +59,7 @@ export default class Bot extends Client {
 
     this.settings.successRoles = config.roles;
     this.settings.failureAction = config.failureAction;
-    this.settings.logChannel.id = config.logChannel;
+    this.settings.logChannel = { id: config.logChannel, channel: null };
     this.settings.backup = config.backup;
     this.token = process.env.BOT_TOKEN;
 
@@ -144,23 +138,24 @@ export default class Bot extends Client {
 
     consola.info(`Starting verification for: ${member.username}`);
 
-    if (this.settings.logChannel.id)
-      this.settings.logChannel.channel.createMessage(
-        this.master.strings.bot.info["VERIFICATION_STARTING"]
-          .replace(/\{0\}/g, member.mention)
-          .replace(/\{1\}/g, member.username)
-          .replace(/\{2\}/g, member.id)
-      );
+    this.settings.logChannel?.channel?.createMessage(
+      this.master.strings.bot.info["VERIFICATION_STARTING"]
+        .replace(/\{0\}/g, member.mention)
+        .replace(/\{1\}/g, member.username)
+        .replace(/\{2\}/g, member.id)
+    );
 
     const dmChannel = await member.user.getDMChannel();
+
     if (!dmChannel) {
       this.master.queue.delete(`${guild.id}/${member.id}`);
-      this.settings.logChannel.channel.createMessage(
+      this.settings.logChannel?.channel?.createMessage(
         this.master.strings.bot.info["USER_DMS_DISABLED"]
           .replace(/\{0\}/g, member.mention)
           .replace(/\{1\}/g, member.username)
           .replace(/\{2\}/g, member.id)
       );
+
       return false;
     }
 
@@ -179,12 +174,14 @@ export default class Bot extends Client {
       return true;
     } catch (err) {
       this.master.queue.delete(`${guild.id}/${member.id}`);
+
       await this.settings.logChannel.channel.createMessage(
         this.master.strings.bot.info["USER_DMS_DISABLED"]
           .replace(/\{0\}/g, member.mention)
           .replace(/\{1\}/g, member.username)
           .replace(/\{2\}/g, member.id)
       );
+
       return false;
     }
   }
@@ -235,12 +232,12 @@ export default class Bot extends Client {
         : `../DSV_backup_${this.name.split(" ").join("_")}.json`
     );
 
-    if (!this.master.queue.size && !this.master.usedAccounts.length)
-      return channel
-        ? channel.createMessage(
-            this.master.strings.bot.errors.commands.export["NOTHING_TO_EXPORT"]
-          )
-        : false;
+    if (!this.master.queue.size && !this.master.usedAccounts.length) {
+      channel?.createMessage(
+        this.master.strings.bot.errors.commands.export["NOTHING_TO_EXPORT"]
+      );
+      return;
+    }
 
     try {
       if (existsSync(filePath)) unlinkSync(filePath);
@@ -286,14 +283,14 @@ export default class Bot extends Client {
     );
 
     try {
-      if (!existsSync(filePath))
-        return channel
-          ? channel.createMessage(
-              this.master.strings.bot.errors.commands.import[
-                "NO_BACKUP_FILE"
-              ].replace(/\{0\}/g, filePath)
-            )
-          : false;
+      if (!existsSync(filePath)) {
+        channel?.createMessage(
+          this.master.strings.bot.errors.commands.import[
+            "NO_BACKUP_FILE"
+          ].replace(/\{0\}/g, filePath)
+        );
+        return;
+      }
 
       const file = JSON.parse(readFileSync(filePath, "utf-8"));
 
@@ -302,34 +299,32 @@ export default class Bot extends Client {
         usedAccounts: file.usedAccounts,
       };
 
-      if (!dataObj.queue.length && !dataObj.usedAccounts.length)
-        return channel
-          ? channel.createMessage(
-              this.master.strings.bot.errors.commands.import[
-                "NOTHING_TO_IMPORT"
-              ]
-            )
-          : false;
+      if (!dataObj.queue.length && !dataObj.usedAccounts.length) {
+        channel?.createMessage(
+          this.master.strings.bot.errors.commands.import["NOTHING_TO_IMPORT"]
+        );
+        return;
+      }
 
       dataObj.queue.forEach((r) =>
         this.master.queue.set(`${r.server.id}/${r.user.id}`, r)
       );
       this.master.usedAccounts = dataObj.usedAccounts;
 
-      if (channel)
-        return channel.createMessage(
-          this.master.strings.bot.commands.import["SUCCESS"]
-            .replace(/\{0\}/g, String(this.master.queue.size))
-            .replace(/\{1\}/g, String(this.master.usedAccounts.length))
-        );
+      channel?.createMessage(
+        this.master.strings.bot.commands.import["SUCCESS"]
+          .replace(/\{0\}/g, String(this.master.queue.size))
+          .replace(/\{1\}/g, String(this.master.usedAccounts.length))
+      );
     } catch (err) {
-      if (channel)
-        return channel.createMessage(
+      if (channel) {
+        channel.createMessage(
           this.master.strings.bot.errors.commands.import[
             "PERMISSION_ERROR"
           ].replace(/\{0\}/g, filePath)
         );
-      else return consola.error(`Couldn't read the backup from: ${filePath}`);
+        return;
+      } else consola.error(`Couldn't read the backup from: ${filePath}`);
     }
   }
 
