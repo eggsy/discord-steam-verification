@@ -7,7 +7,7 @@ export default class ReadyEvent extends Event {
   name = "ready";
 
   async execute(bot: Bot) {
-    const channel = await bot.getChannel(bot.settings.logChannel.id);
+    const channel = bot.getChannel(bot.settings.logChannel.id);
 
     if (channel && channel.type !== 0)
       consola.error(
