@@ -12,8 +12,8 @@ export default class MemberLeaveEvent extends Event {
       if (bot.settings.logChannel.id) {
         bot.settings.logChannel.channel.createMessage(
           bot.master.strings.bot.info["USER_LEFT_SERVER"]
-            .replace(/\{0\}/g, member.username)
-            .replace(/\{1\}/g, member.id)
+            .replaceAll("{0}", member.username)
+            .replaceAll("{1}", member.id)
         );
       }
     }

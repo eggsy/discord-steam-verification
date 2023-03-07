@@ -12,16 +12,20 @@ export default class VerifyCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
-          /\{0\}/g,
+        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
+          "{0}",
           this.usage
         )
       );
 
-    const member =
-      ctx.guild.members.get(
-        ctx.message.mentions[0] ? ctx.message.mentions[0].id : null
-      ) || ctx.guild.members.get(ctx.args[0]);
+    const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
+
+    const member = await ctx.guild
+      .fetchMembers({
+        presences: false,
+        userIDs: [userId],
+      })
+      .then((u) => u[0]);
 
     if (!member)
       return ctx.channel.createMessage(
@@ -44,20 +48,23 @@ export default class VerifyCommand extends Command {
 
     if (!member.roles.length || (!notremoved.length && removed.length)) {
       ctx.bot.startVerification(ctx.guild, member);
-      ctx.channel.createMessage(ctx.bot.strings.commands.verify["SUCCESS"]);
+      await ctx.channel.createMessage(
+        ctx.bot.strings.commands.verify["SUCCESS"]
+      );
     } else if (!removed.length && notremoved.length)
-      return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.verify["COULDNT_REMOVE_ROLES"].replace(
-          /\{0\}/g,
-          notremoved.map((r) => "`" + r + "`").join(", ")
-        )
+      await ctx.channel.createMessage(
+        ctx.bot.strings.errors.commands.verify[
+          "COULDNT_REMOVE_ROLES"
+        ].replaceAll("{0}", notremoved.map((r) => "`" + r + "`").join(", "))
       );
     else if (removed.length && notremoved.length)
-      return ctx.channel.createMessage(
+      await ctx.channel.createMessage(
         ctx.bot.strings.errors.commands.verify["PARTIALLY_REMOVED"]
-          .replace(/\{0\}/g, removed.map((r) => "`" + r + "`").join(", "))
-          .replace(/\{1\}/g, notremoved.map((r) => "`" + r + "`").join(", "))
+          .replaceAll("{0}", removed.map((r) => "`" + r + "`").join(", "))
+          .replaceAll("{1}", notremoved.map((r) => "`" + r + "`").join(", "))
       );
-    else return ctx.message.addReaction("⛔");
+    else ctx.message.addReaction("⛔");
+
+    ctx.guild.members.clear();
   }
 }

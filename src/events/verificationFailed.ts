@@ -31,7 +31,8 @@ export default class VerificationFailedEvent extends Event {
       if (bot.settings.failureAction === "NONE") return;
 
       const dmChannel = await user.user.getDMChannel();
-      bot.createMessage(
+
+      await bot.createMessage(
         dmChannel.id,
         !usedAcc
           ? bot.master.strings.bot.events.verificationFailed[

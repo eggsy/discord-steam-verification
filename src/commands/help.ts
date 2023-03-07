@@ -30,26 +30,22 @@ export default class HelpCommand extends Command {
         added.push(command.name);
       });
 
-      ctx.message.channel.createMessage({
+      await ctx.message.channel.createMessage({
         embed: {
           title: ctx.bot.name,
           description: message,
           fields: [
             {
-              name:
-                ctx.bot.strings.commands.help.embed.fields[
-                  "MORE_INFORMATION"
-                ]["title"],
+              name: ctx.bot.strings.commands.help.embed.fields[
+                "MORE_INFORMATION"
+              ]["title"],
               value: ctx.bot.strings.commands.help.embed.fields[
                 "MORE_INFORMATION"
-              ]["value"].replace(/\{0\}/g, ctx.bot.prefix),
+              ]["value"].replaceAll("{0}", ctx.bot.prefix),
             },
           ],
           footer: {
-            text:
-              ctx.bot.strings.commands.common.embed[
-                "NOT_AFILLIATED"
-              ],
+            text: ctx.bot.strings.commands.common.embed["NOT_AFILLIATED"],
             icon_url: ctx.bot.user.avatarURL,
           },
         },
@@ -59,44 +55,40 @@ export default class HelpCommand extends Command {
 
       if (!ctx.bot.commands.has(command))
         return ctx.message.channel.createMessage(
-          ctx.bot.strings.errors.commands.help[
-            "COMMAND_NOT_FOUND"
-          ].replace(/\{0\}/g, command)
+          ctx.bot.strings.errors.commands.help["COMMAND_NOT_FOUND"].replaceAll(
+            "{0}",
+            command
+          )
         );
 
       command = ctx.bot.commands.get(command);
 
-      ctx.message.channel.createMessage({
+      await ctx.message.channel.createMessage({
         embed: {
           author: { name: `${command.name}` },
           description: command.description,
           fields: [
             {
-              name:
-                ctx.bot.strings.commands.help.embed.fields["USAGE"][
-                  "title"
-                ],
+              name: ctx.bot.strings.commands.help.embed.fields["USAGE"][
+                "title"
+              ],
               value: command.usage,
               inline: true,
             },
             {
-              name:
-                ctx.bot.strings.commands.help.embed.fields[
-                  "ALTERNATIVES"
-                ]["title"],
+              name: ctx.bot.strings.commands.help.embed.fields["ALTERNATIVES"][
+                "title"
+              ],
               value: command.aliases.length
                 ? command.aliases.join(", ")
-                : ctx.bot.strings.commands.help.embed.fields[
-                    "ALTERNATIVES"
-                  ]["value_no_aliases"],
+                : ctx.bot.strings.commands.help.embed.fields["ALTERNATIVES"][
+                    "value_no_aliases"
+                  ],
               inline: true,
             },
           ],
           footer: {
-            text:
-              ctx.bot.strings.commands.common.embed[
-                "NOT_AFILLIATED"
-              ],
+            text: ctx.bot.strings.commands.common.embed["NOT_AFILLIATED"],
             icon_url: ctx.bot.user.avatarURL,
           },
         },

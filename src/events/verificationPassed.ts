@@ -37,7 +37,8 @@ export default class VerificationPassedEvent extends Event {
 
     try {
       const dmChannel = await user.user.getDMChannel();
-      bot.createMessage(
+
+      await bot.createMessage(
         dmChannel.id,
         bot.master.strings.bot.events.verificationPassed[
           "SUCCESS_PRIVATE_MESSAGE"
@@ -49,7 +50,7 @@ export default class VerificationPassedEvent extends Event {
         bot.settings.logChannel.channel.createMessage(
           bot.master.strings.bot.events.verificationPassed[
             "SUCCESS_LOG_MESSAGE"
-          ].replace(/\{0\}/g, user.user.username)
+          ].replaceAll("{0}", user.user.username)
         );
     } catch (err) {
       consola.error(err);

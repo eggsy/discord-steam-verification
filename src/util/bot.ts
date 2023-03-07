@@ -140,9 +140,9 @@ export default class Bot extends Client {
 
     this.settings.logChannel?.channel?.createMessage(
       this.master.strings.bot.info["VERIFICATION_STARTING"]
-        .replace(/\{0\}/g, member.mention)
-        .replace(/\{1\}/g, member.username)
-        .replace(/\{2\}/g, member.id)
+        .replaceAll("{0}", member.mention)
+        .replaceAll("{1}", member.username)
+        .replaceAll("{2}", member.id)
     );
 
     const dmChannel = await member.user.getDMChannel();
@@ -151,9 +151,9 @@ export default class Bot extends Client {
       this.master.queue.delete(`${guild.id}/${member.id}`);
       this.settings.logChannel?.channel?.createMessage(
         this.master.strings.bot.info["USER_DMS_DISABLED"]
-          .replace(/\{0\}/g, member.mention)
-          .replace(/\{1\}/g, member.username)
-          .replace(/\{2\}/g, member.id)
+          .replaceAll("{0}", member.mention)
+          .replaceAll("{1}", member.username)
+          .replaceAll("{2}", member.id)
       );
 
       return false;
@@ -163,10 +163,10 @@ export default class Bot extends Client {
       await this.createMessage(
         dmChannel.id,
         this.master.strings.bot.info["VERIFICATION_PRIVATE_MESSAGE"]
-          .replace(/\{0\}/g, member.username)
-          .replace(/\{1\}/g, guild.name)
-          .replace(
-            /\{2\}/g,
+          .replaceAll("{0}", member.username)
+          .replaceAll("{1}", guild.name)
+          .replaceAll(
+            "{2}",
             `<${process.env.HOST}/verify/${guild.id}/${member.id}>`
           )
       );
@@ -177,9 +177,9 @@ export default class Bot extends Client {
 
       await this.settings.logChannel.channel.createMessage(
         this.master.strings.bot.info["USER_DMS_DISABLED"]
-          .replace(/\{0\}/g, member.mention)
-          .replace(/\{1\}/g, member.username)
-          .replace(/\{2\}/g, member.id)
+          .replaceAll("{0}", member.mention)
+          .replaceAll("{1}", member.username)
+          .replaceAll("{2}", member.id)
       );
 
       return false;
@@ -197,27 +197,29 @@ export default class Bot extends Client {
     this.master.queue.delete(`${member.guild.id}/${member.user.id}`);
 
     consola.info(
-      `User ${member.user.username} has bypassed verification by ${author.user.username}`
+      `User ${member.user.username} has been bypassed verification by ${author.user.username}`
     );
 
     if (this.settings.logChannel.id && author)
       this.settings.logChannel.channel.createMessage(
         this.master.strings.bot.info["VERIFICATION_BYPASSED"]
-          .replace(/\{0\}/g, member.user.username)
-          .replace(/\{1\}/g, author.user.username)
+          .replaceAll("{0}", member.user.username)
+          .replaceAll("{1}", author.user.username)
       );
 
     const dmChannel = await member.user.getDMChannel();
-    this.createMessage(
+
+    await this.createMessage(
       dmChannel.id,
       `${this.master.strings.bot.info["VERIFICATION_BYPASSED_PM"]["FIRST"]
-        .replace(/\{0\}/g, author.user.username)
-        .replace(/\{1\}/g, member.guild.name)} ${
+        .replaceAll("{0}", author.user.username)
+        .replaceAll("{1}", member.guild.name)} ${
         partial
           ? this.master.strings.bot.info["VERIFICATION_BYPASSED_PM"]["SECOND"]
           : ""
       }`
     );
+
     return true;
   }
 
@@ -225,8 +227,8 @@ export default class Bot extends Client {
     const filePath = join(
       __dirname,
       this.settings.backup.path && this.settings.backup.path.endsWith(".json")
-        ? this.settings.backup.path.replace(
-            /\{0\}/g,
+        ? this.settings.backup.path.replaceAll(
+            "{0}",
             this.name.split(" ").join("_")
           )
         : `../DSV_backup_${this.name.split(" ").join("_")}.json`
@@ -255,8 +257,8 @@ export default class Bot extends Client {
 
       if (channel)
         return channel.createMessage(
-          this.master.strings.bot.commands.export["SUCCESS"].replace(
-            /\{0\}/g,
+          this.master.strings.bot.commands.export["SUCCESS"].replaceAll(
+            "{0}",
             filePath
           )
         );
@@ -265,7 +267,7 @@ export default class Bot extends Client {
         return channel.createMessage(
           this.master.strings.bot.errors.commands.export[
             "PERMISSION_ERROR"
-          ].replace(/\{0\}/g, filePath)
+          ].replaceAll("{0}", filePath)
         );
       else return consola.error(`Coulndn't create a backup to: ${filePath}`);
     }
@@ -275,8 +277,8 @@ export default class Bot extends Client {
     const filePath = join(
       __dirname,
       this.settings.backup.path && this.settings.backup.path.endsWith(".json")
-        ? this.settings.backup.path.replace(
-            /\{0\}/g,
+        ? this.settings.backup.path.replaceAll(
+            "{0}",
             this.name.split(" ").join("_")
           )
         : `../DSV_backup_${this.name.split(" ").join("_")}.json`
@@ -287,7 +289,7 @@ export default class Bot extends Client {
         channel?.createMessage(
           this.master.strings.bot.errors.commands.import[
             "NO_BACKUP_FILE"
-          ].replace(/\{0\}/g, filePath)
+          ].replaceAll("{0}", filePath)
         );
         return;
       }
@@ -313,15 +315,15 @@ export default class Bot extends Client {
 
       channel?.createMessage(
         this.master.strings.bot.commands.import["SUCCESS"]
-          .replace(/\{0\}/g, String(this.master.queue.size))
-          .replace(/\{1\}/g, String(this.master.usedAccounts.length))
+          .replaceAll("{0}", String(this.master.queue.size))
+          .replaceAll("{1}", String(this.master.usedAccounts.length))
       );
     } catch (err) {
       if (channel) {
         channel.createMessage(
           this.master.strings.bot.errors.commands.import[
             "PERMISSION_ERROR"
-          ].replace(/\{0\}/g, filePath)
+          ].replaceAll("{0}", filePath)
         );
         return;
       } else consola.error(`Couldn't read the backup from: ${filePath}`);

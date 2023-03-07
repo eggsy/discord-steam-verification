@@ -8,19 +8,23 @@ export default class UnverifyCommand extends Command {
   usage = "unverify <@user|user_id>";
   requiredPerms = ["banMembers"];
 
-  execute(ctx: Params) {
+  async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
-          /\{0\}/g,
+        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
+          "{0}",
           this.usage
         )
       );
 
-    const member =
-      ctx.guild.members.get(
-        ctx.message.mentions[0] ? ctx.message.mentions[0].id : null
-      ) || ctx.guild.members.get(ctx.args[0]);
+    const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
+
+    const member = await ctx.guild
+      .fetchMembers({
+        presences: false,
+        userIDs: [userId],
+      })
+      .then((u) => u[0]);
 
     if (!member)
       return ctx.channel.createMessage(
@@ -40,7 +44,7 @@ export default class UnverifyCommand extends Command {
     ) {
       ctx.bot.master.queue.delete(`${ctx.guild.id}/${member.id}`);
 
-      ctx.channel.createMessage(
+      await ctx.channel.createMessage(
         ctx.bot.strings.commands.unverify["SUCCESS_QUEUE"]
       );
     } else {
@@ -51,7 +55,11 @@ export default class UnverifyCommand extends Command {
         member.removeRole(ctx.bot.settings.successRoles[key]);
       }
 
-      ctx.channel.createMessage(ctx.bot.strings.commands.unverify["SUCCESS"]);
+      await ctx.channel.createMessage(
+        ctx.bot.strings.commands.unverify["SUCCESS"]
+      );
     }
+
+    ctx.guild.members.clear();
   }
 }

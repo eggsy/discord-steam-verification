@@ -13,8 +13,8 @@ export default class EvalCommand extends Command {
     if (!ctx.args.length)
       return ctx.channel
         .createMessage(
-          ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replace(
-            /\{0\}/g,
+          ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
+            "{0}",
             this.usage
           )
         )
@@ -37,16 +37,16 @@ export default class EvalCommand extends Command {
       result = result.replaceAll(ctx.bot.token, "***");
 
       return ctx.channel.createMessage(
-        ctx.bot.strings.commands.eval["OUTPUT"].replace(
-          /\{0\}/g,
+        ctx.bot.strings.commands.eval["OUTPUT"].replaceAll(
+          "{0}",
           "```js\n" + result + "```"
         )
       );
     } catch (error) {
       return ctx.channel
         .createMessage(
-          ctx.bot.strings.errors.commands.eval["ERROR"].replace(
-            /\{0\}/g,
+          ctx.bot.strings.errors.commands.eval["ERROR"].replaceAll(
+            "{0}",
             "```js\n" + error + "```"
           )
         )

@@ -11,29 +11,35 @@ export default class BypassCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common[
-          "WRONG_USAGE"
-        ].replace(/\{0\}/g, this.usage)
+        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
+          "{0}",
+          this.usage
+        )
       );
 
-    const member =
-      ctx.guild.members.get(
-        ctx.message.mentions[0] ? ctx.message.mentions[0].id : null
-      ) || ctx.guild.members.get(ctx.args[0]);
+    const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
+
+    const member = await ctx.guild
+      .fetchMembers({
+        presences: false,
+        userIDs: [userId],
+      })
+      .then((u) => u[0]);
 
     if (!member)
       return ctx.channel.createMessage(
         ctx.bot.strings.errors.commands.common["MEMBER_NOT_FOUND"]
       );
-    else if (!ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`))
-      return ctx.channel.createMessage(
+
+    if (!ctx.bot.master.queue.has(`${ctx.guild.id}/${member.id}`))
+      await ctx.channel.createMessage(
         ctx.bot.strings.errors.commands.common["NOT_IN_QUEUE"]
       );
     else {
-      const notAdded: string[] = [];
+      const notAdded = [];
 
-      for (let key in ctx.bot.settings.successRoles) {
-        const role = ctx.guild.roles.get(ctx.bot.settings.successRoles[key]);
+      for (const roleId of ctx.bot.settings.successRoles) {
+        const role = ctx.guild.roles.get(roleId);
 
         try {
           await member.addRole(role.id);
@@ -43,7 +49,7 @@ export default class BypassCommand extends Command {
       }
 
       if (notAdded.length === ctx.bot.settings.successRoles.length)
-        return ctx.channel.createMessage(
+        await ctx.channel.createMessage(
           ctx.bot.strings.errors.commands.bypass["NO_ROLES_ADDED"]
         );
       else if (
@@ -51,25 +57,26 @@ export default class BypassCommand extends Command {
         notAdded.length < ctx.bot.settings.successRoles.length
       ) {
         await ctx.bot.stopVerification(member, ctx.author, true);
-        ctx.channel.createMessage(
-          ctx.bot.strings.errors.commands.bypass[
-            "PARTIALLY_ADDED"
-          ].replace(/\{0\}/g, notAdded.map((r) => "`" + r + "`").join(", "))
+        await ctx.channel.createMessage(
+          ctx.bot.strings.errors.commands.bypass["PARTIALLY_ADDED"].replaceAll(
+            "{0}",
+            notAdded.join(", ")
+          )
         );
       } else {
         const removed = await ctx.bot.stopVerification(member, ctx.author);
 
         if (!removed)
-          ctx.channel.createMessage(
-            ctx.bot.strings.errors.commands.bypass[
-              "COULDNT_REMOVE_QUEUE"
-            ]
+          await ctx.channel.createMessage(
+            ctx.bot.strings.errors.commands.bypass["COULDNT_REMOVE_QUEUE"]
           );
 
-        ctx.channel.createMessage(
+        await ctx.channel.createMessage(
           ctx.bot.strings.commands.bypass["SUCCESS"]
         );
       }
     }
+
+    ctx.guild.members.clear();
   }
 }
