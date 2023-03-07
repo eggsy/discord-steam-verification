@@ -1,19 +1,15 @@
 import { Master } from "@/structures";
 import Bot from "@/util/bot";
 import API from "@/util/api";
-
-// Import strings
-import stringsBot from "@/strings/bot";
-import stringsApi from "@/strings/api";
-import stringsWeb from "@/strings/website";
+import strings from "@/strings";
 
 export default class Main extends Master {
   queue = new Map();
   usedAccounts: string[] = [];
   strings = {
-    bot: stringsBot,
-    api: stringsApi,
-    web: stringsWeb,
+    bot: strings.bot,
+    api: strings.api,
+    web: strings.web,
   };
 
   bot = new Bot(this);
