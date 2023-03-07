@@ -9,6 +9,6 @@ export default class ExportCommand extends Command {
   requiredPerms = ["administrator"];
 
   execute(ctx: Params) {
-    ctx.bot.backupOrImport(true, ctx.channel);
+    ctx.bot.backup(ctx.channel);
   }
 }
