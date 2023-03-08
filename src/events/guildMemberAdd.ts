@@ -7,16 +7,13 @@ export default class NewMemberEvent extends Event {
   name = "guildMemberAdd";
 
   async execute(guild: Guild, member: Member, bot: Bot) {
-    const memberRoles: string[] = [];
-
-    if (member?.roles)
-      bot.settings.successRoles.forEach((r) => {
-        if (member.roles.includes(r)) memberRoles.push(r);
-      });
+    const memberHasRoles = bot.settings.successRoles.every((roleId) =>
+      member.roles.includes(roleId)
+    );
 
     if (
       !bot.settings.enabled ||
-      memberRoles.length === bot.settings.successRoles.length ||
+      memberHasRoles ||
       bot.master.queue.has(`${guild.id}/${member.id}`) ||
       bot.master.usedAccounts.includes(`${guild.id}/${member.id}`)
     )

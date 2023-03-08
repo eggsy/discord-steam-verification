@@ -7,8 +7,10 @@ export default class MemberLeaveEvent extends Event {
   name = "guildMemberRemove";
 
   async execute(member: Member, bot: Bot) {
-    if (bot.master.queue.has(`${member.guild.id}/${member.id}`)) {
-      bot.master.queue.delete(`${member.guild.id}/${member.id}`);
+    const saveKey = `${member.guild.id}/${member.id}`;
+
+    if (bot.master.queue.has(saveKey)) {
+      bot.master.queue.delete(saveKey);
 
       bot.settings.logChannel?.channel?.createMessage(
         useReplacer(bot.master.strings.bot.info["USER_LEFT_SERVER"], [
