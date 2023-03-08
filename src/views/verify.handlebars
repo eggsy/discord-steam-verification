@@ -61,9 +61,10 @@
         })
       }).then(res => res.json())
 
-      if (!data || data.error) {
+      if (data.message && data.error) {
         console.error(data);
         alert(data.message)
+        window.open("about:blank", "_self").close();
       } else if (!data.error && data.verified) {
         alert("{{ strings.SUCCESS_MESSAGE }}");
         window.open("about:blank", "_self").close();
