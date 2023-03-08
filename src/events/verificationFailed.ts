@@ -28,56 +28,48 @@ export default class VerificationFailedEvent extends Event {
         `User ${user.username} tried to use the same Steam account that has been used before.`
       );
 
-    try {
-      if (bot.settings.failureAction === "NONE") return;
+    if (bot.settings.failureAction === "NONE") return;
 
-      const dmChannel = await user.user.getDMChannel();
+    const dmChannel = await user.user.getDMChannel();
 
-      await bot.createMessage(
+    await bot
+      .createMessage(
         dmChannel.id,
-        !usedAcc
-          ? bot.master.strings.bot.events.verificationFailed[
-              "FAILED_PRIVATE_MESSAGE"
-            ]
-          : bot.master.strings.bot.events.verificationFailed[
-              "FAILED_PM_SAME_ACCOUNT"
-            ]
-      );
-    } catch (err) {
-      consola.error("Couldn't DM to the user.");
-    }
+        bot.master.strings.bot.events.verificationFailed[
+          usedAcc ? "FAILED_PM_SAME_ACCOUNT" : "FAILED_PRIVATE_MESSAGE"
+        ]
+      )
+      .catch(() => {});
 
-    if (bot.settings.logChannel.id) {
-      bot.settings.logChannel.channel.createMessage(
-        useReplacer(
-          bot.master.strings.bot.events.verificationFailed[
-            usedAcc ? "FAILED_SAME_ACCOUNT_LOG" : "FAILED_LOG_MESSAGE"
-          ],
-          [user.mention, user.username, user.id]
-        )
-      );
+    bot.settings.logChannel?.channel?.createMessage(
+      useReplacer(
+        bot.master.strings.bot.events.verificationFailed[
+          usedAcc ? "FAILED_SAME_ACCOUNT_LOG" : "FAILED_LOG_MESSAGE"
+        ],
+        [user.mention, user.username, user.id]
+      )
+    );
 
-      switch (bot.settings.failureAction) {
-        case "KICK":
-          user
-            .kick(
-              bot.master.strings.bot.events.verificationFailed[
-                "AUDIT_LOG_REASON_KICK"
-              ]
-            )
-            .catch(() => {});
-          break;
-        case "BAN":
-          user
-            .ban(
-              null,
-              bot.master.strings.bot.events.verificationFailed[
-                "AUDIT_LOG_REASON_BAN"
-              ]
-            )
-            .catch(() => {});
-          break;
-      }
+    switch (bot.settings.failureAction) {
+      case "KICK":
+        user
+          .kick(
+            bot.master.strings.bot.events.verificationFailed[
+              "AUDIT_LOG_REASON_KICK"
+            ]
+          )
+          .catch(() => {});
+        break;
+      case "BAN":
+        user
+          .ban(
+            null,
+            bot.master.strings.bot.events.verificationFailed[
+              "AUDIT_LOG_REASON_BAN"
+            ]
+          )
+          .catch(() => {});
+        break;
     }
 
     server.members.clear();
