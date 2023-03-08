@@ -100,6 +100,7 @@ export const handler = async (
           "verificationPassed",
           `${req.body.serverId}/${req.body.userId}`
         );
+
         api.master.queue.delete(`${req.body.serverId}/${req.body.userId}`);
 
         return res

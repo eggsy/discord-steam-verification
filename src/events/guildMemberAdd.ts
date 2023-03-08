@@ -22,10 +22,6 @@ export default class NewMemberEvent extends Event {
     )
       return;
 
-    try {
-      await bot.startVerification(guild, member);
-    } catch (err) {
-      consola.error(err);
-    }
+    await bot.startVerification(guild, member).catch(consola.error);
   }
 }

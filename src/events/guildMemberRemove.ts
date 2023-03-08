@@ -22,10 +22,10 @@ export default class MemberLeaveEvent extends Event {
       a.includes(`${member.id}/`)
     );
 
-    if (userIndex !== -1) {
-      bot.master.usedAccounts = bot.master.usedAccounts.filter(
-        (a: string, i: number) => i !== userIndex
-      );
-    }
+    if (userIndex === -1) return;
+
+    bot.master.usedAccounts = bot.master.usedAccounts.filter(
+      (a: string, i: number) => i !== userIndex
+    );
   }
 }
