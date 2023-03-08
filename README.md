@@ -1,4 +1,7 @@
-# Discord Steam Verification
+<p align="center">
+  <img width="150" src="https://user-images.githubusercontent.com/13917975/223648366-85812348-7f6c-4472-98bf-6c3f3ce95a58.png" alt="DSV logo" />
+  <h1 align="center">Discord Steam Verification</h1>
+</p>
 
 Verify your Discord server members and check if they have specified app on their Steam library! Give them roles on successfull verification and punish them if they don't have it in their library!
 
