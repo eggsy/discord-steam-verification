@@ -4,6 +4,7 @@ import API from "@/util/api";
 import { Response } from "express";
 import { RequestWithExtraInformation } from "types/express";
 import config from "@/config";
+import { useReplacer } from "@/functions/replacer";
 
 export const path = "/verify";
 export const method = "post";
@@ -56,12 +57,7 @@ export const handler = async (
       `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${process.env.STEAM_API_KEY}&steamid=${req.body.steamId}`
     );
 
-    if (
-      !data ||
-      !data.response ||
-      !data.response.games ||
-      !data.response.games.length
-    )
+    if (!data.response?.games?.length)
       return res.status(406).json({
         error: true,
         message:
@@ -92,9 +88,10 @@ export const handler = async (
 
         return res.status(400).json({
           error: true,
-          message: api.master.strings.api.endpoints.verifyPost[
-            "APP_NOT_FOUND"
-          ].replaceAll("{0}", notFound.join(", ")),
+          message: useReplacer(
+            api.master.strings.api.endpoints.verifyPost["APP_NOT_FOUND"],
+            [notFound.join(", ")]
+          ),
         });
       } else {
         api.master.usedAccounts.push(`${req.body.userId}/${req.body.steamId}`);
