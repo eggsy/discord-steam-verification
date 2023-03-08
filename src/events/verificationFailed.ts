@@ -1,6 +1,7 @@
 import { Event } from "@/structures";
 import consola from "consola";
 import Bot from "@/util/bot";
+import { useReplacer } from "@/functions/replacer";
 
 export default class VerificationFailedEvent extends Event {
   name = "verificationFailed";
@@ -48,19 +49,12 @@ export default class VerificationFailedEvent extends Event {
 
     if (bot.settings.logChannel.id) {
       bot.settings.logChannel.channel.createMessage(
-        !usedAcc
-          ? bot.master.strings.bot.events.verificationFailed[
-              "FAILED_LOG_MESSAGE"
-            ]
-              .replaceAll("{0}", user.mention)
-              .replaceAll("{1}", user.username)
-              .replaceAll("{2}", user.id)
-          : bot.master.strings.bot.events.verificationFailed[
-              "FAILED_SAME_ACCOUNT_LOG"
-            ]
-              .replaceAll(/\{0\}/g, user.mention)
-              .replaceAll(/\{1\}/g, user.username)
-              .replaceAll(/\{2\}/g, user.id)
+        useReplacer(
+          bot.master.strings.bot.events.verificationFailed[
+            usedAcc ? "FAILED_SAME_ACCOUNT_LOG" : "FAILED_LOG_MESSAGE"
+          ],
+          [user.mention, user.username, user.id]
+        )
       );
 
       switch (bot.settings.failureAction) {

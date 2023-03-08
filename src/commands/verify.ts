@@ -1,5 +1,6 @@
 import { Params } from "types/bot";
 import { Command } from "@/structures";
+import { useReplacer } from "@/functions/replacer";
 
 export default class VerifyCommand extends Command {
   name = "verify";
@@ -12,10 +13,9 @@ export default class VerifyCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
-          "{0}",
-          this.usage
-        )
+        useReplacer(ctx.bot.strings.errors.commands.common["WRONG_USAGE"], [
+          this.usage,
+        ])
       );
 
     const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
@@ -53,15 +53,20 @@ export default class VerifyCommand extends Command {
       );
     } else if (!removed.length && notremoved.length)
       await ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.verify[
-          "COULDNT_REMOVE_ROLES"
-        ].replaceAll("{0}", notremoved.map((r) => "`" + r + "`").join(", "))
+        useReplacer(
+          ctx.bot.strings.errors.commands.verify["COULDNT_REMOVE_ROLES"],
+          [notremoved.map((r) => "`" + r + "`").join(", ")]
+        )
       );
     else if (removed.length && notremoved.length)
       await ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.verify["PARTIALLY_REMOVED"]
-          .replaceAll("{0}", removed.map((r) => "`" + r + "`").join(", "))
-          .replaceAll("{1}", notremoved.map((r) => "`" + r + "`").join(", "))
+        useReplacer(
+          ctx.bot.strings.errors.commands.verify["PARTIALLY_REMOVED"],
+          [
+            removed.map((r) => "`" + r + "`").join(", "),
+            notremoved.map((r) => "`" + r + "`").join(", "),
+          ]
+        )
       );
     else ctx.message.addReaction("⛔");
 

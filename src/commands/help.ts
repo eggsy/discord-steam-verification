@@ -1,5 +1,6 @@
 import { Params } from "types/bot";
 import { Command } from "@/structures";
+import { useReplacer } from "@/functions/replacer";
 
 export default class HelpCommand extends Command {
   name = "help";
@@ -39,9 +40,12 @@ export default class HelpCommand extends Command {
               name: ctx.bot.strings.commands.help.embed.fields[
                 "MORE_INFORMATION"
               ]["title"],
-              value: ctx.bot.strings.commands.help.embed.fields[
-                "MORE_INFORMATION"
-              ]["value"].replaceAll("{0}", ctx.bot.prefix),
+              value: useReplacer(
+                ctx.bot.strings.commands.help.embed.fields["MORE_INFORMATION"][
+                  "value"
+                ],
+                [ctx.bot.prefix]
+              ),
             },
           ],
           footer: {
@@ -55,9 +59,9 @@ export default class HelpCommand extends Command {
 
       if (!ctx.bot.commands.has(command))
         return ctx.message.channel.createMessage(
-          ctx.bot.strings.errors.commands.help["COMMAND_NOT_FOUND"].replaceAll(
-            "{0}",
-            command
+          useReplacer(
+            ctx.bot.strings.errors.commands.help["COMMAND_NOT_FOUND"],
+            [command]
           )
         );
 

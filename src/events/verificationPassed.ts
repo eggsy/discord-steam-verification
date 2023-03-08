@@ -1,6 +1,7 @@
 import { Event } from "@/structures";
 import consola from "consola";
 import Bot from "@/util/bot";
+import { useReplacer } from "@/functions/replacer";
 
 export default class VerificationPassedEvent extends Event {
   name = "verificationPassed";
@@ -48,9 +49,12 @@ export default class VerificationPassedEvent extends Event {
       // Send the information to log channel if set
       if (bot.settings.logChannel.id)
         bot.settings.logChannel.channel.createMessage(
-          bot.master.strings.bot.events.verificationPassed[
-            "SUCCESS_LOG_MESSAGE"
-          ].replaceAll("{0}", user.user.username)
+          useReplacer(
+            bot.master.strings.bot.events.verificationPassed[
+              "SUCCESS_LOG_MESSAGE"
+            ],
+            [user.username]
+          )
         );
     } catch (err) {
       consola.error(err);

@@ -1,6 +1,7 @@
 import { inspect } from "util";
 import { Params } from "types/bot";
 import { Command } from "@/structures";
+import { useReplacer } from "@/functions/replacer";
 
 export default class EvalCommand extends Command {
   name = "eval";
@@ -10,13 +11,12 @@ export default class EvalCommand extends Command {
   requiredPerms = ["administrator"];
 
   async execute(ctx: Params) {
-    if (!ctx.args.length)
-      return ctx.channel
+    if (!ctx.args.length) {
+      ctx.channel
         .createMessage(
-          ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
-            "{0}",
-            this.usage
-          )
+          useReplacer(ctx.bot.strings.errors.commands.common["WRONG_USAGE"], [
+            this.usage,
+          ])
         )
         .then((m) =>
           setTimeout(() => {
@@ -25,6 +25,9 @@ export default class EvalCommand extends Command {
           }, 3000)
         )
         .catch(null);
+
+      return;
+    }
 
     const script = ctx.args.join(" ");
     const isAsync = script.includes("return") || script.includes("await");
@@ -36,19 +39,17 @@ export default class EvalCommand extends Command {
       result = inspect(result, { depth: 0 }).substring(0, 1900);
       result = result.replaceAll(ctx.bot.token, "***");
 
-      return ctx.channel.createMessage(
-        ctx.bot.strings.commands.eval["OUTPUT"].replaceAll(
-          "{0}",
-          "```js\n" + result + "```"
-        )
+      ctx.channel.createMessage(
+        useReplacer(ctx.bot.strings.commands.eval["OUTPUT"], [
+          "```js\n" + result + "```",
+        ])
       );
     } catch (error) {
-      return ctx.channel
+      await ctx.channel
         .createMessage(
-          ctx.bot.strings.errors.commands.eval["ERROR"].replaceAll(
-            "{0}",
-            "```js\n" + error + "```"
-          )
+          useReplacer(ctx.bot.strings.errors.commands.eval["ERROR"], [
+            "```js\n" + error + "```",
+          ])
         )
         .catch(null);
     }

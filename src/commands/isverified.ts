@@ -1,5 +1,6 @@
 import { Params } from "types/bot";
 import { Command } from "@/structures";
+import { useReplacer } from "@/functions/replacer";
 
 export default class IsVerifiedCommand extends Command {
   name = "isverified";
@@ -11,10 +12,9 @@ export default class IsVerifiedCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
-          "{0}",
-          this.usage
-        )
+        useReplacer(ctx.bot.strings.errors.commands.common["WRONG_USAGE"], [
+          this.usage,
+        ])
       );
 
     const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
@@ -44,10 +44,9 @@ export default class IsVerifiedCommand extends Command {
       );
     else if (opposite.length < ctx.bot.settings.successRoles.length)
       await ctx.channel.createMessage(
-        ctx.bot.strings.commands.isverified["MISSING_ROLES"].replaceAll(
-          "{0}",
-          opposite.map((r) => "`" + r + "`").join(", ")
-        )
+        useReplacer(ctx.bot.strings.commands.isverified["MISSING_ROLES"], [
+          opposite.map((r) => "`" + r + "`").join(", "),
+        ])
       );
     else if (opposite.length === ctx.bot.settings.successRoles.length)
       await ctx.channel.createMessage(

@@ -1,3 +1,4 @@
+import { useReplacer } from "@/functions/replacer";
 import { Command } from "@/structures";
 import { Params } from "types/bot";
 
@@ -11,10 +12,9 @@ export default class BypassCommand extends Command {
   async execute(ctx: Params) {
     if (!ctx.args.length)
       return ctx.channel.createMessage(
-        ctx.bot.strings.errors.commands.common["WRONG_USAGE"].replaceAll(
-          "{0}",
-          this.usage
-        )
+        useReplacer(ctx.bot.strings.errors.commands.common["WRONG_USAGE"], [
+          this.usage,
+        ])
       );
 
     const userId = ctx.message.mentions?.[0]?.id || ctx.args[0];
@@ -58,9 +58,9 @@ export default class BypassCommand extends Command {
       ) {
         await ctx.bot.stopVerification(member, ctx.author, true);
         await ctx.channel.createMessage(
-          ctx.bot.strings.errors.commands.bypass["PARTIALLY_ADDED"].replaceAll(
-            "{0}",
-            notAdded.join(", ")
+          useReplacer(
+            ctx.bot.strings.errors.commands.bypass["PARTIALLY_ADDED"],
+            [notAdded.join(", ")]
           )
         );
       } else {

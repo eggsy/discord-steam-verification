@@ -1,6 +1,7 @@
 import { Event } from "@/structures";
 import { Member } from "eris";
 import Bot from "@/util/bot";
+import { useReplacer } from "@/functions/replacer";
 
 export default class MemberLeaveEvent extends Event {
   name = "guildMemberRemove";
@@ -10,9 +11,10 @@ export default class MemberLeaveEvent extends Event {
       bot.master.queue.delete(`${member.guild.id}/${member.id}`);
 
       bot.settings.logChannel?.channel?.createMessage(
-        bot.master.strings.bot.info["USER_LEFT_SERVER"]
-          .replaceAll("{0}", member.username)
-          .replaceAll("{1}", member.id)
+        useReplacer(bot.master.strings.bot.info["USER_LEFT_SERVER"], [
+          member.username,
+          member.id,
+        ])
       );
     }
 
