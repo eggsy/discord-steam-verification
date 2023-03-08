@@ -1,21 +1,19 @@
 import { Event } from "@/structures";
-import { Member, Guild } from "eris";
+import { Member } from "eris";
 import Bot from "@/util/bot";
 
 export default class MemberLeaveEvent extends Event {
   name = "guildMemberRemove";
 
-  async execute(guild: Guild, member: Member, bot: Bot) {
-    if (bot.master.queue.has(`${guild.id}/${member.id}`)) {
-      bot.master.queue.delete(`${guild.id}/${member.id}`);
+  async execute(member: Member, bot: Bot) {
+    if (bot.master.queue.has(`${member.guild.id}/${member.id}`)) {
+      bot.master.queue.delete(`${member.guild.id}/${member.id}`);
 
-      if (bot.settings.logChannel.id) {
-        bot.settings.logChannel.channel.createMessage(
-          bot.master.strings.bot.info["USER_LEFT_SERVER"]
-            .replaceAll("{0}", member.username)
-            .replaceAll("{1}", member.id)
-        );
-      }
+      bot.settings.logChannel?.channel?.createMessage(
+        bot.master.strings.bot.info["USER_LEFT_SERVER"]
+          .replaceAll("{0}", member.username)
+          .replaceAll("{1}", member.id)
+      );
     }
 
     const userIndex: number = bot.master.usedAccounts.findIndex((a) =>
