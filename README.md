@@ -47,9 +47,9 @@ That's all, but please do not forget this is not the "best version" of what you 
 
 This bot requires [Node.js](https://nodejs.org/en/download/), [TypeScript](https://www.npmjs.com/package/typescript), [pnpm](https://pnpm.io/installation), a [Discord Bot Application](https://discord.com/developers/applications/), [Steam API Key](https://steamcommunity.com/dev/registerkey) and a Node.js hosting service (e.g. Hop.io, Railway, Fly.io) to install.
 
-💡 Make sure to enable "Message Content Intent" in your bot's application page in Discord Developer Portal.
+💡 Make sure to enable "Message Content Intent" & "Server Members Indent" in your bot's application page in Discord Developer Portal.
 
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/13917975/223542806-9b93690d-00d0-4691-8d2b-359ed7d9ef70.png">
+<img width="599" alt="image" src="https://user-images.githubusercontent.com/13917975/228335074-35a8247c-0529-46c9-b55d-b8576a10d808.png">
 
 ### 📩 Installation
 
