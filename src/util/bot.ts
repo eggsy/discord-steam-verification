@@ -50,7 +50,7 @@ export default class Bot extends Client {
       allowedMentions: {
         everyone: false,
       },
-      intents: ["directMessages", "guildMessages", "guilds"],
+      intents: ["directMessages", "guildMessages", "guilds", "guildMembers"],
     });
 
     this.master = master;
