@@ -1,13 +1,13 @@
 import { Event } from "@/structures";
-import { Member } from "eris";
+import { Guild, Member } from "eris";
 import Bot from "@/util/bot";
 import { useReplacer } from "@/functions/replacer";
 
 export default class MemberLeaveEvent extends Event {
   name = "guildMemberRemove";
 
-  async execute(member: Member, bot: Bot) {
-    const saveKey = `${member.guild.id}/${member.id}`;
+  async execute(guild: Guild, member: Member, bot: Bot) {
+    const saveKey = `${guild.id}/${member.id}`;
 
     if (bot.master.queue.has(saveKey)) {
       bot.master.queue.delete(saveKey);
